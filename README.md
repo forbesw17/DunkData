@@ -1,4 +1,4 @@
-Testing jira integration. Attempt 2 Resolves NSAA-8
+Testing jira integration.
 
 # Introduction
 
