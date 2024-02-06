@@ -1,76 +1,138 @@
+import Colors from "@/constants/Colors";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, Image } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { useOAuth } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+
+// Styles
+import { defaultStyles } from "@/constants/Styles";
 
 // Components
 import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
-import SocialLoginButtons from "@/components/SocialLoginButtons";
-import Divider from "@/components/Divider";
 import CustomLink from "@/components/CustomLink";
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 
+enum Strategy {
+  Google = "oauth_google",
+  Apple = "oauth_apple",
+  Facebook = "oauth_facebook",
+}
+
 export default function Page() {
-    useWarmUpBrowser();
-  
-    return (
-      <ImageBackground
-        source={require("../../assets/images/BackgroundSmall.png")}
-        style={{ width: "100%", height: "100%" }}
-      >
-        <Text style={{fontSize: 40, color: "white"}}>Login</Text>
-      </ImageBackground>
-    );
+  useWarmUpBrowser();
+
+  const router = useRouter();
+  const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
+  const { startOAuthFlow: appleAuth } = useOAuth({ strategy: "oauth_apple" });
+  const { startOAuthFlow: facebookAuth } = useOAuth({strategy: "oauth_facebook" });
+
+  const onSelectAuth = async (strategy: Strategy) => {
+    const selectedAuth = {
+      [Strategy.Google]: googleAuth,
+      [Strategy.Apple]: appleAuth,
+      [Strategy.Facebook]: facebookAuth,
+    }[strategy];
+
+    try {
+      const { createdSessionId, setActive } = await selectedAuth();
+
+      if (createdSessionId) {
+        setActive!({ session: createdSessionId });
+        router.back();
+      }
+    } catch (err) {
+      console.error("OAuth error", err);
+    }
   };
-  
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: "center",
-      alignItems: "center",
-      padding: 16,
-      gap: 12,
-    },
-    imageContainer: {
-      shadowColor: '#000000',
-      shadowOffset: {
-        width: 5,
-        height: 10,
-      },
-      shadowOpacity: 0.3, // Adjust the opacity as needed
-      shadowRadius: 4, // Adjust the radius as needed
-      elevation: 6, // Required for Android shadow
-      marginBottom: 0,
-    },
-    image: {
-      width: 300,
-      height: 300,
-      resizeMode: 'cover'
-    },
-    title: {
-      fontSize: 38,
-      fontWeight: "bold",
-      marginBottom: 16,
-      color: "white",
-      shadowColor: "#000000",
-  
-      shadowOffset: {
-        width: 5,
-        height: 5,
-      },
-      shadowOpacity: 0.3, // Adjust the opacity as needed
-      shadowRadius: 4, // Adjust the radius as needed
-      elevation: 6, // Required for Android shadow
-    },
-    input: {
-      width: "100%",
-      height: 40,
-      borderColor: "gray",
-      borderWidth: 1,
-      marginBottom: 16,
-      paddingHorizontal: 8,
-    },
-    text: {
-      marginTop: 16,
-      color: "white",
-    },
-  });
+
+  return (
+    <View style={styles.container}>
+      <TextInput
+        autoCapitalize="none"
+        placeholder="Email"
+        style={[defaultStyles.inputField, { marginBottom: 30 }]}
+      />
+
+      <TouchableOpacity style={defaultStyles.btn}>
+        <Text style={defaultStyles.btnText}>Continue</Text>
+      </TouchableOpacity>
+
+      <View style={styles.seperatorView}>
+        <View
+          style={{
+            flex: 1,
+            borderBottomColor: 'black',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+        <Text style={styles.seperator}>or</Text>
+        <View
+          style={{
+            flex: 1,
+            borderBottomColor: 'black',
+            borderBottomWidth: StyleSheet.hairlineWidth,
+          }}
+        />
+      </View>
+
+      <View style={{ gap: 20 }}>
+        {/* <TouchableOpacity style={styles.btnOutline}>
+          <Ionicons name="mail-outline" size={24} style={defaultStyles.btnIcon} />
+          <Text style={styles.btnOutlineText}>Continue with Phone</Text>
+        </TouchableOpacity> */}
+
+        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Apple)}>
+          <Ionicons name="logo-apple" size={24} style={defaultStyles.btnIcon} />
+          <Text style={styles.btnOutlineText}>Continue with Apple</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Google)}>
+          <Ionicons name="logo-google" size={24} style={defaultStyles.btnIcon} />
+          <Text style={styles.btnOutlineText}>Continue with Google</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Facebook)}>
+          <Ionicons name="logo-facebook" size={24} style={defaultStyles.btnIcon} />
+          <Text style={styles.btnOutlineText}>Continue with Facebook</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    padding: 26,
+  },
+
+  seperatorView: {
+    flexDirection: 'row',
+    gap: 10,
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  seperator: {
+    color: 'gray',
+    fontSize: 16,
+  },
+  btnOutline: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 50,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+  },
+  btnOutlineText: {
+    color: '#000',
+    fontSize: 16,
+  },
+});
