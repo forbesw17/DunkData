@@ -2,31 +2,22 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ImageBackground, Image } from "react-native";
 
 // Components
+import CustomButton from "@/components/CustomButton";
 import CustomInput from "@/components/CustomInput";
+import SocialLoginButtons from "@/components/SocialLoginButtons";
+import Divider from "@/components/Divider";
 import CustomLink from "@/components/CustomLink";
+import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 
 export default function Page() {
-    const [code, setCode] = useState("");
-  
+    useWarmUpBrowser();
   
     return (
       <ImageBackground
         source={require("../../assets/images/BackgroundSmall.png")}
         style={{ width: "100%", height: "100%" }}
       >
-        <View style={styles.container}>
-          <Text style={styles.title}>Enter code</Text>
-  
-          <CustomInput
-            value={code}
-            placeholder="Code"
-            setValue={setCode}
-          />
-  
-          {/* <CustomButton title="Submit" bgColor="#063f5a" onPress={handleLogin} /> */}
-          <CustomLink href="/one" text="Submit" bgColor="#063f5a" />
-  
-        </View>
+        <Text style={{fontSize: 40, color: "white"}}>Login</Text>
       </ImageBackground>
     );
   };
