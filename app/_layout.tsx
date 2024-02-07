@@ -87,7 +87,19 @@ function RootLayoutNav() {
           name="(modals)/login"
           options={{
             presentation: "modal",
-            title: "Log in or sign up",
+            title: "Log in",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="close-outline" size={28} />
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Stack.Screen
+          name="(modals)/signup"
+          options={{
+            presentation: "modal",
+            title: "Sign up",
             headerLeft: () => (
               <TouchableOpacity onPress={() => router.back()}>
                 <Ionicons name="close-outline" size={28} />

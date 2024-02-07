@@ -1,7 +1,14 @@
 import Colors from "@/constants/Colors";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useOAuth } from "@clerk/clerk-expo";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
+import { useOAuth, useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -9,10 +16,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { defaultStyles } from "@/constants/Styles";
 
 // Components
-import CustomButton from "@/components/CustomButton";
-import CustomInput from "@/components/CustomInput";
-import CustomLink from "@/components/CustomLink";
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
+import Seperator from "@/components/Seperator";
 
 enum Strategy {
   Google = "oauth_google",
@@ -24,10 +29,41 @@ export default function Page() {
   useWarmUpBrowser();
 
   const router = useRouter();
+
+  const { signIn, setActive, isLoaded } = useSignIn();
+
+  const [emailAddress, setEmailAddress] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: "oauth_apple" });
-  const { startOAuthFlow: facebookAuth } = useOAuth({strategy: "oauth_facebook" });
+  const { startOAuthFlow: facebookAuth } = useOAuth({
+    strategy: "oauth_facebook",
+  });
 
+  // start the sign in process.
+  const onSignInPress = async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const completeSignIn = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+      // This is an important step,
+      // This indicates the user is signed in
+      await setActive({ session: completeSignIn.createdSessionId });
+      router.back();
+      
+    } catch (err: any) {
+      console.log(err);
+      Alert.alert("Error", err.errors[0].message);
+    }
+  };
+
+  // This function is called when the user selects a social auth provider.
   const onSelectAuth = async (strategy: Strategy) => {
     const selectedAuth = {
       [Strategy.Google]: googleAuth,
@@ -48,91 +84,71 @@ export default function Page() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={defaultStyles.container}>
       <TextInput
         autoCapitalize="none"
+        value={emailAddress}
         placeholder="Email"
-        style={[defaultStyles.inputField, { marginBottom: 30 }]}
+        onChangeText={(email) => setEmailAddress(email)}
+        style={[defaultStyles.inputField, { marginBottom: 20 }]}
       />
 
-      <TouchableOpacity style={defaultStyles.btn}>
+      <TextInput
+        autoCapitalize="none"
+        value={password}
+        placeholder="Password"
+        secureTextEntry={true}
+        onChangeText={(password) => setPassword(password)}
+        style={[defaultStyles.inputField, { marginBottom: 20 }]}
+      />
+
+      <TouchableOpacity style={defaultStyles.btn} onPress={onSignInPress}>
         <Text style={defaultStyles.btnText}>Continue</Text>
       </TouchableOpacity>
 
-      <View style={styles.seperatorView}>
-        <View
-          style={{
-            flex: 1,
-            borderBottomColor: 'black',
-            borderBottomWidth: StyleSheet.hairlineWidth,
-          }}
-        />
-        <Text style={styles.seperator}>or</Text>
-        <View
-          style={{
-            flex: 1,
-            borderBottomColor: 'black',
-            borderBottomWidth: StyleSheet.hairlineWidth,
-          }}
-        />
-      </View>
+      <Seperator placeholder="or" />
 
       <View style={{ gap: 20 }}>
-        {/* <TouchableOpacity style={styles.btnOutline}>
-          <Ionicons name="mail-outline" size={24} style={defaultStyles.btnIcon} />
-          <Text style={styles.btnOutlineText}>Continue with Phone</Text>
-        </TouchableOpacity> */}
-
-        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Apple)}>
+        <TouchableOpacity
+          style={defaultStyles.btnOutline}
+          onPress={() => onSelectAuth(Strategy.Apple)}
+        >
           <Ionicons name="logo-apple" size={24} style={defaultStyles.btnIcon} />
-          <Text style={styles.btnOutlineText}>Continue with Apple</Text>
+          <Text style={defaultStyles.btnOutlineText}>Continue with Apple</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Google)}>
-          <Ionicons name="logo-google" size={24} style={defaultStyles.btnIcon} />
-          <Text style={styles.btnOutlineText}>Continue with Google</Text>
+        <TouchableOpacity
+          style={defaultStyles.btnOutline}
+          onPress={() => onSelectAuth(Strategy.Google)}
+        >
+          <Ionicons
+            name="logo-google"
+            size={24}
+            style={defaultStyles.btnIcon}
+          />
+          <Text style={defaultStyles.btnOutlineText}>Continue with Google</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btnOutline} onPress={() => onSelectAuth(Strategy.Facebook)}>
-          <Ionicons name="logo-facebook" size={24} style={defaultStyles.btnIcon} />
-          <Text style={styles.btnOutlineText}>Continue with Facebook</Text>
+        <TouchableOpacity
+          style={defaultStyles.btnOutline}
+          onPress={() => onSelectAuth(Strategy.Facebook)}
+        >
+          <Ionicons
+            name="logo-facebook"
+            size={24}
+            style={defaultStyles.btnIcon}
+          />
+          <Text style={defaultStyles.btnOutlineText}>
+            Continue with Facebook
+          </Text>
         </TouchableOpacity>
+
+        <Button
+          title="Don't have an account?"
+          onPress={() => router.replace("/(modals)/signup")}
+          color={Colors.primary}
+        />
       </View>
     </View>
   );
-};
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 26,
-  },
-
-  seperatorView: {
-    flexDirection: 'row',
-    gap: 10,
-    alignItems: 'center',
-    marginVertical: 30,
-  },
-  seperator: {
-    color: 'gray',
-    fontSize: 16,
-  },
-  btnOutline: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: 'gray',
-    height: 50,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-  },
-  btnOutlineText: {
-    color: '#000',
-    fontSize: 16,
-  },
-});
+}

@@ -1,10 +1,12 @@
 import Colors from '@/constants/Colors';
+import TeamColors from '@/constants/TeamColors';
 import { StyleSheet } from 'react-native';
 
 export const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FDFFFF',
+    backgroundColor: '#fff',
+    padding: 25,
   },
   inputField: {
     height: 44,
@@ -24,11 +26,25 @@ export const defaultStyles = StyleSheet.create({
   btnText: {
     color: '#fff',
     fontSize: 16,
-    // fontFamily: 'mon-b',
   },
   btnIcon: {
     position: 'absolute',
     left: 16,
+  },
+  btnOutline: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'gray',
+    height: 50,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+  },
+  btnOutlineText: {
+    color: '#000',
+    fontSize: 16,
   },
   footer: {
     position: 'absolute',
