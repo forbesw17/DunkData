@@ -21,6 +21,7 @@ const Layout = () => {
         name="index"
         options={{
           tabBarLabel: 'Home',
+          headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
             focused ? <Ionicons name="home" size={size} color={color} /> : <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -30,6 +31,7 @@ const Layout = () => {
         name="stats"
         options={{
           tabBarLabel: 'Stats',
+          headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
             focused ? <Ionicons name="stats-chart" size={size} color={color} /> : <Ionicons name="stats-chart-outline" size={size} color={color} />
           ),
@@ -39,6 +41,7 @@ const Layout = () => {
         name="predictions"
         options={{
           tabBarLabel: 'Predictions',
+          headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
             focused ? <Ionicons name="analytics" size={size} color={color} /> : <Ionicons name="analytics-outline" size={size} color={color} />
           ),
@@ -47,8 +50,8 @@ const Layout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          headerShown: false,
           tabBarLabel: 'Profile',
+          headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
             focused ? <Ionicons name="person-circle" size={size} color={color} /> : <Ionicons name="person-circle-outline" size={size} color={color} />
           ),
