@@ -127,7 +127,7 @@ export default function SignUpScreen() {
           )}
 
           <Text style={{ color: "gray" }}>
-            Password must be 8 characters in length
+            - Password must be 8 characters in length
           </Text>
 
           <TouchableOpacity style={defaultStyles.btn} onPress={onSignUpPress}>

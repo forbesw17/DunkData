@@ -27,19 +27,14 @@ enum Strategy {
 
 export default function Page() {
   useWarmUpBrowser();
-
   const router = useRouter();
-
-  const { signIn, setActive, isLoaded } = useSignIn();
-
-  const [emailAddress, setEmailAddress] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const { signIn, setActive, isLoaded } = useSignIn()
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
 
   const { startOAuthFlow: googleAuth } = useOAuth({ strategy: "oauth_google" });
   const { startOAuthFlow: appleAuth } = useOAuth({ strategy: "oauth_apple" });
-  const { startOAuthFlow: facebookAuth } = useOAuth({
-    strategy: "oauth_facebook",
-  });
+  const { startOAuthFlow: facebookAuth } = useOAuth({strategy: "oauth_facebook" });
 
   // start the sign in process.
   const onSignInPress = async () => {
@@ -56,7 +51,7 @@ export default function Page() {
       // This indicates the user is signed in
       await setActive({ session: completeSignIn.createdSessionId });
       router.back();
-      
+
     } catch (err: any) {
       console.log(err);
       Alert.alert("Error", err.errors[0].message);

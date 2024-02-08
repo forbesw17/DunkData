@@ -7,13 +7,8 @@ import * as SecureStore from "expo-secure-store";
 
 import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 
-import { useColorScheme } from "@/components/useColorScheme";
+
 import { TouchableOpacity } from "react-native";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -68,7 +63,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   const { isLoaded, isSignedIn } = useAuth();
   const router = useRouter();
 
@@ -80,7 +74,6 @@ function RootLayoutNav() {
   }, [isLoaded]);
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{}}>
         {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
         <Stack.Screen
@@ -109,6 +102,5 @@ function RootLayoutNav() {
         />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
-    </ThemeProvider>
   );
 }
