@@ -146,7 +146,7 @@ export default function Page() {
         <Button
           title="Don't have an account?"
           onPress={() => router.replace("/(modals)/signup")}
-          color={Colors.primary}
+          color={TeamColors.default.secondaryColor}
         />
       </View>
     </View>

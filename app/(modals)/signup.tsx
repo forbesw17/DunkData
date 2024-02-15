@@ -147,7 +147,7 @@ export default function SignUpScreen() {
           <Button
             title="Already have an account?"
             onPress={() => router.replace("/(modals)/login")}
-            color={Colors.primary}
+            color={TeamColors.default.secondaryColor}
           />
         </View>
       )}

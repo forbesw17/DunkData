@@ -31,7 +31,7 @@ export const defaultStyles = StyleSheet.create({
     padding: 10,
   },
   btn: {
-    backgroundColor: Colors.primary,
+    backgroundColor: TeamColors.default.secondaryColor,
     height: 50,
     borderRadius: 8,
     justifyContent: 'center',
