@@ -1,4 +1,9 @@
 export default {
+  "default": {
+    primaryColor: "#012235",
+    secondaryColor: "#fd5f01",
+    text: '#fff',
+  },
   "Atlanta Hawks": {
     primaryColor: "#E03A3E",
     secondaryColor: "#C1D32F",

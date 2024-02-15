@@ -1,3 +1,4 @@
+import TeamColors from '@/constants/TeamColors';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
@@ -8,7 +9,7 @@ const Seperator = ({ placeholder }: { placeholder: string }) => {
         <View
           style={{
             flex: 1,
-            borderBottomColor: 'black',
+            borderBottomColor: TeamColors.default.text,
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
         />
@@ -16,7 +17,7 @@ const Seperator = ({ placeholder }: { placeholder: string }) => {
         <View
           style={{
             flex: 1,
-            borderBottomColor: 'black',
+            borderBottomColor: TeamColors.default.text,
             borderBottomWidth: StyleSheet.hairlineWidth,
           }}
         />
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
         marginVertical: 30,
       },
       seperator: {
-        color: 'gray',
+        color: TeamColors.default.text,
         fontSize: 16,
       },
 });

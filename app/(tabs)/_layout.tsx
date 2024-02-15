@@ -2,6 +2,7 @@ import React from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import TeamColors from '@/constants/TeamColors';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 // function TabBarIcon(props: {
@@ -14,8 +15,15 @@ import { Ionicons } from '@expo/vector-icons';
 const Layout = () => {
   return (
     <Tabs
+      
       screenOptions={{
-        tabBarActiveTintColor: '#000',
+        // tabBarActiveTintColor: '#000',
+        tabBarStyle: {
+          backgroundColor: TeamColors.default.primaryColor,
+          borderTopColor: TeamColors.default.primaryColor,
+        },
+        tabBarActiveTintColor: TeamColors.default.secondaryColor,
+        tabBarInactiveTintColor: TeamColors.default.text,
       }}>
       <Tabs.Screen
         name="index"

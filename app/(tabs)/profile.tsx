@@ -11,6 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 // Components
 import Seperator from "@/components/Seperator";
+import TeamColors from "@/constants/TeamColors";
 
 const Page = () => {
   const { signOut } = useAuth();
@@ -65,8 +66,8 @@ const Page = () => {
 
   return (
     <SafeAreaView style={defaultStyles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>Profile</Text>
+      <View style={defaultStyles.headerContainer}>
+        <Text style={defaultStyles.header}>Profile</Text>
         <TouchableOpacity>
           <Ionicons name="settings-outline" size={26} />
         </TouchableOpacity>
@@ -80,7 +81,7 @@ const Page = () => {
           <View style={{ flexDirection: 'row', gap: 6 }}>
             {!edit && (
               <View style={styles.editRow}>
-                <Text style={{ fontSize: 22 }}>
+                <Text style={{ fontSize: 22, color: TeamColors.default.primaryColor, fontWeight: 'bold' }}>
                   {firstName} {lastName}
                 </Text>
                 <TouchableOpacity onPress={() => setEdit(true)}>
@@ -108,24 +109,24 @@ const Page = () => {
               </View>
             )}
           </View>
-          <Text>{email}</Text>
-          <Text>Since {user?.createdAt!.toLocaleDateString()}</Text>
+          <Text style={{color: TeamColors.default.primaryColor}}>{email}</Text>
+          <Text style={{color: TeamColors.default.primaryColor}}>Since {user?.createdAt!.toLocaleDateString()}</Text>
         </View>
       )}
 
       <SignedIn>
-        <Button title="Log Out" onPress={() => signOut()} color={Colors.dark} />
+        <Button title="Log Out" onPress={() => signOut()} color={TeamColors.default.text} />
       </SignedIn>
 
       <SignedOut>
         <Link href={'/(modals)/login'} asChild>
-          <Button title="Log In" color={Colors.dark} />
+          <Button title="Log In" color={TeamColors.default.text} />
         </Link>
         
         <Seperator placeholder="or" />
 
         <Link href={'/(modals)/signup'} asChild>
-          <Button title="Sign Up" color={Colors.dark} />
+          <Button title="Sign Up" color={TeamColors.default.text} />
         </Link>
       </SignedOut>
 
@@ -135,16 +136,8 @@ const Page = () => {
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 24,
-  },
-  header: {
-    fontSize: 24,
-  },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: TeamColors.default.secondaryColor,
     padding: 24,
     borderRadius: 16,
     marginHorizontal: 24,

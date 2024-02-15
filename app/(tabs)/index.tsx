@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   View,
   Text,
-  TouchableOpacity,
   Image
 } from "react-native";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
@@ -12,7 +11,7 @@ import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 // Styles
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
   const { user } = useUser();
@@ -31,12 +30,18 @@ const Page = () => {
       <View style={styles.headerContainer}>
 
         <SignedIn>
-        <Text style={styles.header}>Welcome back, {firstName}</Text>
-        <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <Image source={require("@/assets/images/DunkData.png")} style={{ width: 75, height: 75 }} />
+          {/* <Text style={styles.header}>Hello, {firstName}</Text> */}
+        </View>
+        {/* <Image source={{ uri: user?.imageUrl }} style={styles.avatar} /> */}
         </SignedIn>
 
         <SignedOut>
-        <Text style={styles.header}>DunkData</Text>
+        {/* <View style={{flexDirection: 'row', alignItems: 'center'}}> */}
+          <Image source={require("@/assets/images/DunkData.png")} style={{ width: 100, height: 100 }} />
+          {/* <Text style={styles.header}>Dunk Data</Text> */}
+        {/* </View> */}
         </SignedOut>
       </View>
     </SafeAreaView>
@@ -48,7 +53,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 24
+    paddingHorizontal: 20,
+    
   },
   header: {
     fontSize: 24,
