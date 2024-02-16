@@ -72,4 +72,7 @@ export const defaultStyles = StyleSheet.create({
     borderTopColor: Colors.grey,
     borderTopWidth: StyleSheet.hairlineWidth,
   },
+  text: {
+    color: TeamColors.default.text,
+  },
 });
