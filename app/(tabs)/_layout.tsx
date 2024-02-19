@@ -1,21 +1,22 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-// function TabBarIcon(props: {
-//   name: React.ComponentProps<typeof FontAwesome>['name'];
-//   color: string;
-// }) {
-//   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-// }
+import TeamColors from '@/constants/TeamColors';
 
 const Layout = () => {
   return (
     <Tabs
+      
       screenOptions={{
-        tabBarActiveTintColor: '#000',
+        tabBarStyle: {
+          backgroundColor: TeamColors.default.primaryColor,
+          borderTopWidth: 0.2,
+          borderTopColor: TeamColors.default.text,
+          paddingVertical: 10,
+          height: 90,
+        },
+        tabBarActiveTintColor: TeamColors.default.secondaryColor,
+        tabBarInactiveTintColor: TeamColors.default.text,
       }}>
       <Tabs.Screen
         name="index"

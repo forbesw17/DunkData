@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 // Styles
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
+import TeamColors from "@/constants/TeamColors";
 
 export default function SignUpScreen() {
   const router = useRouter();
@@ -85,6 +86,7 @@ export default function SignUpScreen() {
             autoCapitalize="none"
             value={firstName}
             placeholder="First Name"
+            placeholderTextColor={TeamColors.default.text}
             onChangeText={(firstName) => setFirstName(firstName)}
           />
 
@@ -93,6 +95,7 @@ export default function SignUpScreen() {
             autoCapitalize="none"
             value={lastName}
             placeholder="Last Name"
+            placeholderTextColor={TeamColors.default.text}
             onChangeText={(lastName) => setLastName(lastName)}
           />
 
@@ -101,6 +104,7 @@ export default function SignUpScreen() {
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email"
+            placeholderTextColor={TeamColors.default.text}
             onChangeText={(email) => setEmailAddress(email)}
           />
 
@@ -109,6 +113,7 @@ export default function SignUpScreen() {
             value={password}
             placeholder="Password"
             secureTextEntry={true}
+            placeholderTextColor={TeamColors.default.text}
             onChangeText={(password) => setPassword(password)}
           />
 
@@ -116,6 +121,7 @@ export default function SignUpScreen() {
             style={defaultStyles.inputField}
             value={confirmPassword}
             placeholder="Confirm Password"
+            placeholderTextColor={TeamColors.default.text}
             secureTextEntry={true}
             onChangeText={(confirmPassword) =>
               setConfirmPassword(confirmPassword)
@@ -141,7 +147,7 @@ export default function SignUpScreen() {
           <Button
             title="Already have an account?"
             onPress={() => router.replace("/(modals)/login")}
-            color={Colors.primary}
+            color={TeamColors.default.secondaryColor}
           />
         </View>
       )}

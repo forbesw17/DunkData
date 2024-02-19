@@ -5,28 +5,13 @@ import { StyleSheet, SafeAreaView, View, Text } from "react-native";
 import { defaultStyles } from "@/constants/Styles";
 
 const Page = () => {
-    
-
-  
-    return (
-      <SafeAreaView style={defaultStyles.container}>
-      <View style={styles.headerContainer}>
-        <Text style={styles.header}>Predictions</Text>
+  return (
+    <SafeAreaView style={defaultStyles.container}>
+      <View style={defaultStyles.headerContainer}>
+        <Text style={defaultStyles.header}>Predictions</Text>
       </View>
     </SafeAreaView>
-    );
-  };
+  );
+};
 
-  const styles = StyleSheet.create({
-    headerContainer: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: 24
-    },
-    header: {
-      fontSize: 24,
-    },
-  });
-  
-  export default Page;
+export default Page;

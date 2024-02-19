@@ -18,6 +18,7 @@ import { defaultStyles } from "@/constants/Styles";
 // Components
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import Seperator from "@/components/Seperator";
+import TeamColors from "@/constants/TeamColors";
 
 enum Strategy {
   Google = "oauth_google",
@@ -84,6 +85,7 @@ export default function Page() {
         autoCapitalize="none"
         value={emailAddress}
         placeholder="Email"
+        placeholderTextColor={TeamColors.default.text}
         onChangeText={(email) => setEmailAddress(email)}
         style={[defaultStyles.inputField, { marginBottom: 20 }]}
       />
@@ -92,6 +94,7 @@ export default function Page() {
         autoCapitalize="none"
         value={password}
         placeholder="Password"
+        placeholderTextColor={TeamColors.default.text}
         secureTextEntry={true}
         onChangeText={(password) => setPassword(password)}
         style={[defaultStyles.inputField, { marginBottom: 20 }]}
@@ -119,6 +122,7 @@ export default function Page() {
           <Ionicons
             name="logo-google"
             size={24}
+            color={'#DB4437'}
             style={defaultStyles.btnIcon}
           />
           <Text style={defaultStyles.btnOutlineText}>Continue with Google</Text>
@@ -131,6 +135,7 @@ export default function Page() {
           <Ionicons
             name="logo-facebook"
             size={24}
+            color={'#3b5998'}
             style={defaultStyles.btnIcon}
           />
           <Text style={defaultStyles.btnOutlineText}>
@@ -141,7 +146,7 @@ export default function Page() {
         <Button
           title="Don't have an account?"
           onPress={() => router.replace("/(modals)/signup")}
-          color={Colors.primary}
+          color={TeamColors.default.secondaryColor}
         />
       </View>
     </View>

@@ -4,15 +4,15 @@ import {
   SafeAreaView,
   View,
   Text,
-  TouchableOpacity,
-  Image
+  Image,
+  ScrollView,
 } from "react-native";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 
 // Styles
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
+// import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
   const { user } = useUser();
@@ -29,16 +29,47 @@ const Page = () => {
   return (
     <SafeAreaView style={defaultStyles.container}>
       <View style={styles.headerContainer}>
-
-        <SignedIn>
-        <Text style={styles.header}>Welcome back, {firstName}</Text>
-        <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
-        </SignedIn>
-
-        <SignedOut>
-        <Text style={styles.header}>DunkData</Text>
-        </SignedOut>
+        <Image
+          source={require("@/assets/images/DunkData.png")}
+          style={{ width: 75, height: 75 }}
+        />
       </View>
+
+      <ScrollView contentContainerStyle={{ padding: 25 }}>
+
+
+        {/* Upcoming games component */}
+        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
+          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Upcoming Games</Text>
+          <View
+            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
+          >
+            
+          </View>
+        </View>
+
+        {/* Past games component */}
+        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
+          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Recent Games</Text>
+          <View
+            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
+          >
+            
+          </View>
+        </View>
+
+        {/* Past games component */}
+        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
+          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Recent Games</Text>
+          <View
+            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
+          >
+            
+          </View>
+        </View>
+
+
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -48,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 24
+    paddingHorizontal: 20,
   },
   header: {
     fontSize: 24,
