@@ -12,6 +12,7 @@ import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 // Styles
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
+import UpcomingGames from "@/components/UpcomingGames";
 // import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
@@ -37,36 +38,12 @@ const Page = () => {
 
       <ScrollView contentContainerStyle={{ padding: 25 }}>
 
-
-        {/* Upcoming games component */}
-        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
-          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Upcoming Games</Text>
-          <View
-            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
-          >
-            
-          </View>
-        </View>
+        <UpcomingGames />
 
         {/* Past games component */}
-        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
-          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Recent Games</Text>
-          <View
-            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
-          >
-            
-          </View>
-        </View>
+        
 
         {/* Past games component */}
-        <View style={{ flexDirection: 'column', alignItems: 'center', gap: 10, marginBottom: 20}}>
-          <Text style={[defaultStyles.text, {fontSize: 20 }]}>Recent Games</Text>
-          <View
-            style={{ height: 240, width: '100%', backgroundColor: "white", borderRadius: 15 }}
-          >
-            
-          </View>
-        </View>
 
 
       </ScrollView>
