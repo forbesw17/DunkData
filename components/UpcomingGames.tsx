@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 
 import Colors from "@/constants/Colors";
 
 import { getUpcomingGames } from "@/server/SportRadarAPI";
+import { Ionicons } from "@expo/vector-icons";
 
 // Component retrieves the upcoming games from the SportRadar API and displays them in a list
 const UpcomingGames = () => {
@@ -21,33 +22,55 @@ const UpcomingGames = () => {
     getUpcomingGames(currentYear, currentMonth, currentDay).then((data) => {
       setUpcomingGames(data);
     });
-  }, [upcomingGames === undefined]);
+  }, [upcomingGames === undefined, currentDate]);
 
   return (
     <View>
-      <Text style={styles.header}>Today's Schedule</Text>
+      <View style={styles.headerContainer}>
+      <TouchableOpacity onPress={() => setCurrentDate(prevDate => new Date(prevDate.setDate(prevDate.getDate() - 1)))}>
+          <Ionicons name="arrow-back" size={20} color="white" />
+        </TouchableOpacity>
+        <Text style={styles.headerText}>{currentDate.toDateString()}</Text>
+        <TouchableOpacity onPress={() => setCurrentDate(prevDate => new Date(prevDate.setDate(prevDate.getDate() + 1)))}>
+          <Ionicons name="arrow-forward" size={20} color="white" />
+        </TouchableOpacity>
+      </View>
 
       {upcomingGames?.games.map((game, index) => {
         if (game.status === "scheduled" || game.status === "inprogress") {
+        return (
+          <View key={index} style={styles.gamesContainer}>
+            <View style={styles.teams}>
+              <Text style={{ color: "white", fontSize: 16 }}>{game.home}</Text>
+              <Text style={{ color: "white", fontSize: 16 }}>{game.away}</Text>
+            </View>
+            <View style={styles.time}>
+              <Text style={{ color: "white", fontSize: 14 }}>
+                {game.status === "inprogress"
+                  ? "Live"
+                  : game.scheduledTime}
+              </Text>
+            </View>
+          </View>
+        );
+        }
+        else {
           return (
             <View key={index} style={styles.gamesContainer}>
               <View style={styles.teams}>
-                <Text style={{ color: "white", fontSize: 16 }}>
-                  {game.home}
-                </Text>
-                <Text style={{ color: "white", fontSize: 16 }}>
-                  {game.away}
-                </Text>
+                <Text style={{ color: game.homeScore > game.awayScore ? Colors.primary : "white", fontSize: 16 }}>{game.home}</Text>
+                <Text style={{ color: game.homeScore > game.awayScore ?  "white": Colors.primary, fontSize: 16 }}>{game.away}</Text>
               </View>
-              <View style={styles.time}>
-                <Text style={{ color: "white", fontSize: 14 }}>
-                  {game.status === "inprogress"
-                    ? "Watch Now"
-                    : game.scheduledTime}
+              <View>
+                <Text style={{ color: game.homeScore > game.awayScore ? Colors.primary : "white", fontSize: 14 }}>
+                  {game.homeScore}
+                </Text>
+                <Text style={{ color: game.homeScore > game.awayScore ?  "white": Colors.primary, fontSize: 14 }}>
+                  {game.awayScore}
                 </Text>
               </View>
             </View>
-          );
+          )
         }
       })}
     </View>
@@ -61,14 +84,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
+  headerContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  headerText: {
     color: "white",
     fontSize: 24,
+    textAlign: "center",
+    marginBottom: 10,
   },
   gamesContainer: {
     // backgroundColor: "black",
-    borderBottomColor: Colors.primary,
-    borderBottomWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: 15,
+    borderWidth: 1,
     marginVertical: 5,
     flexDirection: "row",
     justifyContent: "space-between",

@@ -26,8 +26,12 @@ export async function getUpcomingGames(year, month, day) {
         id: game.id,
         status: game.status,
         scheduledTime: convertUTCtoLocal(game.scheduled),
+        awayID: game.away.id,
         away: game.away.name,
+        awayScore: game.away_points,
+        homeID: game.home.id,
         home: game.home.name,
+        homeScore: game.home_points,
       });
     });
 
