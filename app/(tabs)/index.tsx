@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 
@@ -13,11 +14,15 @@ import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
 import UpcomingGames from "@/components/UpcomingGames";
+import TeamColors from "@/constants/TeamColors";
+import HomeTopTabs from "@/components/HomeTopTabs";
+import LastestNews from "@/components/LastestNews";
 // import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
   const { user } = useUser();
   const [firstName, setFirstName] = useState(user?.firstName);
+  const [selectedTab, setSelectedTab] = useState("Schedule");
 
   // Load user data on mount
   useEffect(() => {
@@ -36,17 +41,22 @@ const Page = () => {
         />
       </View>
 
-      <ScrollView contentContainerStyle={{ padding: 25 }}>
+      <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
 
+      <HomeTopTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+
+      {selectedTab === "Schedule" && (
         <UpcomingGames />
+      )}
+
+        {/* News component */}
+        {selectedTab === "News" && (
+          <LastestNews/>
+        )}
 
         {/* Past games component */}
-        
-
-        {/* Past games component */}
-
-
-      </ScrollView>
+      {/* </ScrollView> */}
+    </ScrollView>
     </SafeAreaView>
   );
 };
