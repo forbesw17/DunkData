@@ -69,7 +69,7 @@ const Page = () => {
       <View style={defaultStyles.headerContainer}>
         <Text style={defaultStyles.header}>Profile</Text>
         <TouchableOpacity>
-          <Ionicons name="settings-outline" size={26} />
+          <Ionicons name="settings-outline" color={'white'} size={26} />
         </TouchableOpacity>
       </View>
 

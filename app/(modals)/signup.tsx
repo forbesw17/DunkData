@@ -129,7 +129,7 @@ export default function SignUpScreen() {
           />
 
           {password !== confirmPassword && (
-            <Text style={{ color: "blue" }}>Passwords do not match</Text>
+            <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>Passwords do not match</Text>
           )}
 
           <Text style={{ color: "gray" }}>

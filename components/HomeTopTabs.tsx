@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, Pressable } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import Colors from "@/constants/Colors";
+import TeamColors from "@/constants/TeamColors";
 
 type HomeTopTabsProps = {
   selectedTab: string;
@@ -9,17 +11,26 @@ type HomeTopTabsProps = {
 
 const HomeTopTabs: React.FC<HomeTopTabsProps> = ({ selectedTab, setSelectedTab }) => {
 
+  const router = useRouter();
+
   return (
     <View style={styles.container}>
+      <View>
+        <Image
+          source={require("@/assets/images/DunkData.png")}
+          style={{ width: 60, height: 60 }}
+        />
+      </View>
+
       <Pressable
         style={[styles.tab, selectedTab === "Schedule" && styles.tabActive]}
-        onPress={() => setSelectedTab("Schedule")}
+        onPress={() => { setSelectedTab("Schedule"); router.replace("/(tabs)/(home)") }}
       >
         <Text style={styles.tabText}>Schedule</Text>
       </Pressable>
       <Pressable
         style={[styles.tab, selectedTab === "News" && styles.tabActive]}
-        onPress={() => setSelectedTab("News")}
+        onPress={() => {setSelectedTab("News"); router.replace("/(tabs)/(home)/news")}}
       >
         <Text style={styles.tabText}>News</Text>
       </Pressable>
@@ -37,8 +48,9 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    paddingHorizontal: 10,
-    marginBottom: 30,
+    alignItems: "center",
+    paddingHorizontal: 15,
+    // marginBottom: 10,
   },
   tab: {
     width: 95,
@@ -51,7 +63,7 @@ const styles = StyleSheet.create({
   },
   tabText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 14,
   },
 });
 

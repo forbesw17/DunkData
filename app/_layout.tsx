@@ -1,16 +1,14 @@
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
 import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
-
 import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
-
-import { TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { defaultStyles } from "@/constants/Styles";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -57,10 +55,12 @@ export default function RootLayout() {
   }
 
   return (
+    <SafeAreaView style={defaultStyles.container}>
     <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
       <StatusBar style="light" />
       <RootLayoutNav />
     </ClerkProvider>
+    </SafeAreaView>
   );
 }
 
@@ -77,7 +77,6 @@ function RootLayoutNav() {
 
   return (
       <Stack screenOptions={{}}>
-        {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
         <Stack.Screen
           name="(modals)/login"
           options={{

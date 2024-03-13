@@ -1,9 +1,6 @@
-require('dotenv').config();
-//const Constants = require('expo-constants');
 
-
-const axios = require('axios');
-//const { get } = require('react-native/Libraries/TurboModule/TurboModuleRegistry');
+// Dependencies
+import axios from 'axios';
 
 // returns map of teams and their codes 
 async function getTeamCodes(){
@@ -41,8 +38,12 @@ async function getTeamCodes(){
   return teamCodes;
 }
 
-//returns all players from a given team in a given year
-async function getPlayers(teamCode, season){
+/* Returns a Map of players and their ids
+  params:
+    teamCode: the code of the team you want to get the players for
+    season: the season you want to get the players for
+*/
+export async function getPlayers(teamCode, season){
   const options = {
     method: 'GET',
     url: 'https://api-nba-v1.p.rapidapi.com/players',
@@ -56,16 +57,17 @@ async function getPlayers(teamCode, season){
     }
   };
 
-  playerMap = new Map();
+  let playerMap = new Map();
   async function fetchData() {
     try {
       const response = await axios.request(options);
-      console.log(response.data);
+
       for(let item of response.data.response){
-        console.log(item.firstname + " " + item.lastname + " " + item.id);
+        // Sets the key to the player's name and the value to the player's id
         playerMap.set(item.firstname + " " + item.lastname, item.id);
-        return playerMap;
       }
+
+      return playerMap;
     } catch (error) {
       console.error(error);
     }
@@ -717,7 +719,7 @@ async function getTeamBlocksPerGame(teamCode, season){
 
 //returns a map of games to be played on a given date. 
 //data param format: 'YYYY-MM-DD'
-async function getGames(date){
+export async function getGames(date){
   const options = {
     method: 'GET',
     url: 'https://api-nba-v1.p.rapidapi.com/games',
@@ -733,32 +735,49 @@ async function getGames(date){
     try {
       const response = await axios.request(options);
       console.log(response.data);
-      for(let item of response.data.response){
-        gameName = item.teams.visitors.name + " @ " + item.teams.home.name;
-        gameId = item.id;
-        gameMap.set(gameId, gameName);
-        console.log(item.teams.visitors.name);
-        console.log(item.teams.home.name);
-        console.log(item.id);
-        console.log('---------------');
-      }
-      return gameMap;
+      // for(let item of response.data.response){
+      //   let gameName = item.teams.visitors.name + " @ " + item.teams.home.name;
+      //   let gameId = item.id;
+      //   gameMap.set(gameId, gameName); // Fix: Added a comma after the variable declaration
+      //   console.log(item.teams.visitors.name);
+      //   console.log(item.teams.home.name);
+      //   console.log(item.id);
+      //   console.log('---------------');
+      // }
+      // return gameMap;
+      return response.data.response;
     } catch (error) {
       console.error(error);
     }
   }
 
-  fetchData();
+  return fetchData();
 }
 
-let data1 = getGames('2024-02-06');
+//returns a map of games to be played on a given date. 
+//data param format: 'YYYY-MM-DD'
+export async function getGamesPerSeason(season){
+  const options = {
+    method: 'GET',
+    url: 'https://api-nba-v1.p.rapidapi.com/games',
+    params: {season: season},
+    headers: {
+      'X-RapidAPI-Key': process.env.EXPO_PUBLIC_API_KEY,
+      'X-RapidAPI-Host': 'api-nba-v1.p.rapidapi.com'
+    }
+  };
 
-data1.then(data => {
-  console.log(data);
-})
+  async function fetchData(){
+    // gameMap = new Map();
+    try {
+      const response = await axios.request(options);
+      console.log(response.data);
+      return response.data.response;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-//let data = getTeamFieldGoalPercentage('25', '2023');
+  return fetchData();
+}
 
-/*data.then(data => {
-  console.log(data);
-})*/

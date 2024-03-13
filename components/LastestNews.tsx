@@ -11,6 +11,7 @@ import {
 import Colors from "@/constants/Colors";
 
 import { getLastestNews } from "@/server/PerigonAPI"; // Assuming PerigonAPI is the correct one to import
+import { defaultStyles } from "@/constants/Styles";
 
 const LatestNews = () => {
   // const [news, setNews] = useState<{ articles: any[]; } | undefined >();
@@ -110,7 +111,7 @@ const LatestNews = () => {
   };
 
   return (
-    <View>
+    <View style={defaultStyles.container}>
       {news?.map((article, index) => (
         <Pressable key={index} onPress={() => openURL(article.link)}>
           <View style={styles.articleContainer}>
@@ -118,7 +119,6 @@ const LatestNews = () => {
               <View>
                 <Image
                   style={{
-                    flex: 1,
                     width: "100%",
                     height: 200,
                     borderTopLeftRadius: 15,
@@ -130,7 +130,7 @@ const LatestNews = () => {
               </View>
             )}
             <View
-              style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 15 }}
+              style={{ paddingHorizontal: 10, paddingVertical: 15 }}
             >
               <Text style={styles.articleTitle}>{article.title}</Text>
             </View>

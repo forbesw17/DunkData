@@ -6,25 +6,26 @@ import TeamColors from '@/constants/TeamColors';
 const Layout = () => {
   return (
     <Tabs
-      
       screenOptions={{
         tabBarStyle: {
           backgroundColor: TeamColors.default.primaryColor,
-          borderTopWidth: 0.2,
-          borderTopColor: TeamColors.default.text,
+          borderTopWidth: 1,
+          borderTopColor: TeamColors.default.primaryColor,
+          marginBottom: -20,
           paddingVertical: 10,
-          height: 90,
+          // height: 90,
         },
         tabBarActiveTintColor: TeamColors.default.secondaryColor,
         tabBarInactiveTintColor: TeamColors.default.text,
       }}>
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           tabBarLabel: 'Home',
+          tabBarLabelStyle: { fontSize: 9 },
           headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
-            focused ? <Ionicons name="home" size={size} color={color} /> : <Ionicons name="home-outline" size={size} color={color} />
+            focused ? <Ionicons name="home" size={20} color={color} /> : <Ionicons name="home-outline" size={20} color={color} />
           ),
         }}
       />
@@ -32,9 +33,10 @@ const Layout = () => {
         name="stats"
         options={{
           tabBarLabel: 'Stats',
+          tabBarLabelStyle: { fontSize: 9 },
           headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
-            focused ? <Ionicons name="stats-chart" size={size} color={color} /> : <Ionicons name="stats-chart-outline" size={size} color={color} />
+            focused ? <Ionicons name="stats-chart" size={20} color={color} /> : <Ionicons name="stats-chart-outline" size={20} color={color} />
           ),
         }}
       />
@@ -42,9 +44,10 @@ const Layout = () => {
         name="predictions"
         options={{
           tabBarLabel: 'Predictions',
+          tabBarLabelStyle: { fontSize: 9 },
           headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
-            focused ? <Ionicons name="analytics" size={size} color={color} /> : <Ionicons name="analytics-outline" size={size} color={color} />
+            focused ? <Ionicons name="analytics" size={20} color={color} /> : <Ionicons name="analytics-outline" size={20} color={color} />
           ),
         }}
       />
@@ -52,9 +55,10 @@ const Layout = () => {
         name="profile"
         options={{
           tabBarLabel: 'Profile',
+          tabBarLabelStyle: { fontSize: 9 },
           headerShown: false,
           tabBarIcon: ({ size, color, focused }) => (
-            focused ? <Ionicons name="person-circle" size={size} color={color} /> : <Ionicons name="person-circle-outline" size={size} color={color} />
+            focused ? <Ionicons name="person-circle" size={20} color={color} /> : <Ionicons name="person-circle-outline" size={20} color={color} />
           ),
         }}
       />

@@ -5,10 +5,7 @@ import { StyleSheet } from 'react-native';
 export const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#fff',
-    // backgroundColor: '#012235',
     backgroundColor: TeamColors.default.primaryColor,
-    padding: 25,
   },
   headerContainer: {
     flexDirection: "row",

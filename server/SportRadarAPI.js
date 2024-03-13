@@ -40,3 +40,20 @@ export async function getUpcomingGames(year, month, day) {
     console.log(error);
   }
 }
+
+export async function getGameBoxScore(gameID) {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `https://api.sportradar.us/nba/trial/v8/en/games/${gameID}/boxscore.json?api_key=${process.env.EXPO_PUBLIC_SPORTS_RADAR_KEY}`,
+    headers: { }
+  };
+
+  try {
+    const response = await axios.request(config)
+    console.log(response.data);
+  }
+  catch (error) {
+    console.log(error);
+  }
+};
