@@ -24,13 +24,13 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({ selectedTab, setSelectedTab }
 
       <Pressable
         style={[styles.tab, selectedTab === "Schedule" && styles.tabActive]}
-        onPress={() => { setSelectedTab("Schedule"); router.replace("/(tabs)/(home)") }}
+        onPress={() => { setSelectedTab("Schedule"); router.navigate("/(tabs)/(home)") }}
       >
         <Text style={styles.tabText}>Schedule</Text>
       </Pressable>
       <Pressable
         style={[styles.tab, selectedTab === "News" && styles.tabActive]}
-        onPress={() => {setSelectedTab("News"); router.replace("/(tabs)/(home)/news")}}
+        onPress={() => {setSelectedTab("News"); router.navigate("/(tabs)/(home)/news")}}
       >
         <Text style={styles.tabText}>News</Text>
       </Pressable>

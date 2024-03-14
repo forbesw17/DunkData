@@ -31,10 +31,12 @@ export default function HomeLayout() {
         name="index"
         options={{
           headerShown: false,
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen name="news" options={{
         headerShown: false,
+        gestureEnabled: false,
       }} />
     </Stack>
   );
