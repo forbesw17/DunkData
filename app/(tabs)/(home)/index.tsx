@@ -33,7 +33,7 @@ const Page = () => {
 
   return (
     <View style={defaultStyles.container}>
-      <ScrollView contentContainerStyle={[{ paddingHorizontal: 20 }]}>
+      <ScrollView>
         <UpcomingGames />
         {/* <LastestNews /> */}
       </ScrollView>

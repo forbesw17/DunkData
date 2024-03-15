@@ -80,7 +80,7 @@ export default function Page() {
   };
 
   return (
-    <View style={defaultStyles.container}>
+    <View style={defaultStyles.userAuthContainer}>
       <TextInput
         autoCapitalize="none"
         value={emailAddress}

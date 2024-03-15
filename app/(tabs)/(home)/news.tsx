@@ -9,7 +9,7 @@ import LatestNews from "@/components/LastestNews";
 const Page = () => {
   return (
     <SafeAreaView style={defaultStyles.container}>
-        <ScrollView contentContainerStyle={[{ paddingHorizontal: 20 }]}>
+        <ScrollView>
         <LatestNews />
         </ScrollView>
     </SafeAreaView>

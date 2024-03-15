@@ -78,7 +78,7 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View style={defaultStyles.container}>
+    <View style={defaultStyles.userAuthContainer}>
       {!pendingVerification && (
         <View style={{ gap: 20 }}>
           <TextInput

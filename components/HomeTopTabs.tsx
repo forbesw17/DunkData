@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
 import Colors from "@/constants/Colors";
 import TeamColors from "@/constants/TeamColors";
@@ -22,24 +22,31 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({ selectedTab, setSelectedTab }
         />
       </View>
 
-      <Pressable
+      {/* <Pressable
         style={[styles.tab, selectedTab === "Schedule" && styles.tabActive]}
         onPress={() => { setSelectedTab("Schedule"); router.navigate("/(tabs)/(home)") }}
-      >
+      > */}
+      <Link href="/(tabs)/(home)" style={{padding: 10 }} >
+
         <Text style={styles.tabText}>Schedule</Text>
-      </Pressable>
-      <Pressable
+      </Link>
+      {/* </Pressable> */}
+      {/* <Pressable
         style={[styles.tab, selectedTab === "News" && styles.tabActive]}
         onPress={() => {setSelectedTab("News"); router.navigate("/(tabs)/(home)/news")}}
-      >
+      > */}
+      <Link href="/(tabs)/(home)/news" style={{padding: 10 }} >
         <Text style={styles.tabText}>News</Text>
-      </Pressable>
-      <Pressable
+      </Link>
+      {/* </Pressable> */}
+      {/* <Pressable
         style={[styles.tab, selectedTab === "More" && styles.tabActive]}
         onPress={() => setSelectedTab("More")}
-      >
+      > */}
+      <Link href={"/"} style={{padding: 10 }} >
         <Text style={styles.tabText}>More</Text>
-      </Pressable>
+      {/* </Pressable> */}
+      </Link>
     </View>
   );
 };
@@ -49,7 +56,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     // marginBottom: 10,
   },
   tab: {
