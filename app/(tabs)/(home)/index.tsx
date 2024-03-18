@@ -13,10 +13,8 @@ import { useUser, SignedIn, SignedOut } from "@clerk/clerk-react";
 // Styles
 import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
-import UpcomingGames from "@/components/UpcomingGames";
 import TeamColors from "@/constants/TeamColors";
-import HomeTopTabs from "@/components/HomeTopTabs";
-import LastestNews from "@/components/LastestNews";
+import Schedule from "@/components/Schedule";
 // import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
@@ -33,9 +31,8 @@ const Page = () => {
 
   return (
     <View style={defaultStyles.container}>
-      <ScrollView>
-        <UpcomingGames />
-        {/* <LastestNews /> */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <Schedule />
       </ScrollView>
     </View>
   );
