@@ -15,6 +15,8 @@ import { defaultStyles } from "@/constants/Styles";
 import Colors from "@/constants/Colors";
 import TeamColors from "@/constants/TeamColors";
 import Schedule from "@/components/Schedule";
+import DateScrollBar from "@/components/DateScrollBar";
+// import UpcomingGames from "@/components/UpcomingGames";
 // import { Ionicons } from "@expo/vector-icons";
 
 const Page = () => {
@@ -33,6 +35,7 @@ const Page = () => {
     <View style={defaultStyles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Schedule />
+        {/* <UpcomingGames /> */}
       </ScrollView>
     </View>
   );

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
 
@@ -9,9 +8,9 @@ import LatestNews from "@/components/LastestNews";
 const Page = () => {
   return (
     <SafeAreaView style={defaultStyles.container}>
-        <ScrollView>
+      <ScrollView>
         <LatestNews />
-        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 };

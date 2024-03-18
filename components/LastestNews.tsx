@@ -111,7 +111,7 @@ const LatestNews = () => {
   };
 
   return (
-    <View style={defaultStyles.container}>
+    <View style={{ paddingHorizontal: 10 }}>
       {news?.map((article, index) => (
         <Pressable key={index} onPress={() => openURL(article.link)}>
           <View style={styles.articleContainer}>

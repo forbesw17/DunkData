@@ -6,7 +6,7 @@ export const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: TeamColors.default.primaryColor,
-    paddingHorizontal: 10,
+    // paddingHorizontal: 10,
   },
   userAuthContainer: {
     flex: 1,

@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 
-// API call to get the upcoming games
-import { getUpcomingGames } from "@/server/SportRadarAPI";
-
-// Styles and colors
-import Colors from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
-import { defaultStyles } from "@/constants/Styles";
-
-import { TeamLogos } from "@/components/TeamLogos";
+import DateScrollBar from "./DateScrollBar";
+import UpcomingGames from "@/components/UpcomingGames";
 
 // Component retrieves the upcoming games from the SportRadar API and displays them in a list
-const UpcomingGames = () => {
-  //   const [upcomingGames, setUpcomingGames] = useState<
-  //     { date: any; games: any[] } | undefined
-  //   >();
+const Schedule = () => {
+  const [selectedDate, setSelectedDate] = useState(6); // Inital date index is today (6)
 
-  //   const [currentDate, setCurrentDate] = useState(new Date());
+  const dates: Date[] = [];
 
-  //   useEffect(() => {
-  //     let currentYear = currentDate.getFullYear();
-  //     let currentMonth = currentDate.getMonth() + 1; // getMonth returns a zero-based value (0-11), so we add 1 to get the correct month number
-  //     let currentDay = currentDate.getDate();
-
-  //     getUpcomingGames(currentYear, currentMonth, currentDay).then((data) => {
-  //       setUpcomingGames(data);
-  //     });
-  //   }, [upcomingGames === undefined, currentDate]);
+  for (let i = -6; i <= 8; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    dates.push(date);
+  }
 
   const upcomingGames = {
     date: "2024-03-18",
@@ -125,155 +112,14 @@ const UpcomingGames = () => {
 
   return (
     <View>
-      {upcomingGames?.games.map((game, index) => {
-        if (game.status === "scheduled" || game.status === "inprogress") {
-          return (
-            <View key={index} style={styles.gamesContainer}>
-              <View style={styles.teams}>
-                <View style={{ alignItems: "center" }}>
-                  <Text
-                    style={{ color: "white", fontSize: 10, fontWeight: "bold" }}
-                  >
-                    Home
-                  </Text>
-                  <Image
-                    source={TeamLogos[game.home as keyof typeof TeamLogos]}
-                    style={{ height: 70, width: 70 }}
-                  />
-                  <Text style={{ color: "white", fontSize: 9 }}>
-                    {game.home}
-                  </Text>
-                </View>
-                <Text style={{ fontSize: 15, color: 'white'}}>VS</Text>
-                <View style={{ alignItems: "center" }}>
-                  <Text
-                    style={{ color: "white", fontSize: 10, fontWeight: "bold" }}
-                  >
-                    Away
-                  </Text>
-
-                  <Image
-                    source={TeamLogos[game.away as keyof typeof TeamLogos]}
-                    style={{ height: 70, width: 70 }}
-                  />
-                  <Text style={{ color: "white", fontSize: 9 }}>
-                    {game.away}
-                  </Text>
-                </View>
-              </View>
-              <View style={styles.time}>
-                <Text style={{ color: "white", fontSize: 14 }}>
-                  {game.status === "inprogress" ? "Live" : `@ ${game.scheduledTime}`}
-                </Text>
-                <Text style={{ color: "white", fontSize: 14 }}>
-                  {game.homeScore}
-                </Text>
-                <Text style={{ color: "white", fontSize: 14 }}>
-                  {game.awayScore}
-                </Text>
-              </View>
-            </View>
-          );
-        }
-        // else {
-        //   return (
-            // <View key={index} style={styles.gamesContainer}>
-            //   <View style={styles.teams}>
-            //     <Text
-            //       style={{
-            //         color:
-            //           game.homeScore > game.awayScore
-            //             ? Colors.primary
-            //             : "white",
-            //         fontSize: 16,
-            //       }}
-            //     >
-            //       {game.home}
-            //     </Text>
-            //     <Text
-            //       style={{
-            //         color:
-            //           game.homeScore > game.awayScore
-            //             ? "white"
-            //             : Colors.primary,
-            //         fontSize: 16,
-            //       }}
-            //     >
-            //       {game.away}
-            //     </Text>
-            //   </View>
-            //   <View>
-            //     <Text
-            //       style={{
-            //         color:
-            //           game.homeScore > game.awayScore
-            //             ? Colors.primary
-            //             : "white",
-            //         fontSize: 14,
-            //       }}
-            //     >
-            //       {game.homeScore}
-            //     </Text>
-            //     <Text
-            //       style={{
-            //         color:
-            //           game.homeScore > game.awayScore
-            //             ? "white"
-            //             : Colors.primary,
-            //         fontSize: 14,
-            //       }}
-            //     >
-            //       {game.awayScore}
-            //     </Text>
-            //   </View>
-            // </View>
-        //   );
-        // }
-      })}
+      <DateScrollBar
+        dates={dates}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
+      <UpcomingGames currentDate={dates[selectedDate]} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  headerText: {
-    color: "white",
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  gamesContainer: {
-    // backgroundColor: "black",
-    borderColor: Colors.primary,
-    // borderColor: "white",
-    // borderRadius: 15,
-    // borderWidth: 1,
-    borderBottomWidth: 1,
-    marginVertical: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 10,
-  },
-  teams: {
-    padding: 10,
-    // marginHorizontal: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  time: {
-    padding: 10,
-  },
-});
-
-export default UpcomingGames;
+export default Schedule;
