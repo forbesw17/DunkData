@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, ActivityIndicator, View, Text, Image } from "react-native";
-import { Link } from "expo-router";
 
 // API
 import { getUpcomingGames, getGameBoxScore } from "@/server/SportRadarAPI"; // Import the function from your API file
@@ -9,6 +8,7 @@ import { getUpcomingGames, getGameBoxScore } from "@/server/SportRadarAPI"; // I
 import { TeamLogos } from "./TeamLogos";
 import Colors from "@/constants/Colors";
 import TeamColors from "@/constants/TeamColors";
+import BoxScore from "./BoxScore";
 
 /* Returns the status text for a game
     If the game is in progress, return "Live"
@@ -35,7 +35,7 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
     games: [],
   });
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const year = currentDate.getFullYear();
@@ -52,6 +52,9 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
         setLoading(false);
       } catch (error) {
         console.error("Error fetching upcoming games:", error);
+
+        // Retry fetching upcoming games after 2 seconds
+        setTimeout(fetchUpcomingGames, 2000);
       }
     };
 
@@ -62,8 +65,6 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
       // You can do any clean-up here if needed
     };
   }, [currentDate]); // Empty dependency array means this effect runs only once, on component mount
-
-  
 
   // Mock Data
   // Comment out the useEffect and gamesData state variable above and uncomment the code below to use mock data
@@ -161,6 +162,7 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
   //   ],
   // };
 
+  // Loading State Render
   if (loading) {
     return (
       <ActivityIndicator
@@ -171,27 +173,30 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
   }
 
   return (
+    
+    // List of Games
+    // Loop through the games and render each game
     <View style={{ paddingHorizontal: 10 }}>
       {gamesData.games.map((game, index) => {
-        return (
-          <View key={index} style={styles.gameListContainer}>
-            <Link href={`/(tabs)/(home)/${game.id}`}>
+
+        // Closed Game Render
+        if (game.status === "closed") {
+          return (
+            <View key={index} style={styles.gameListContainer}>
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                {game.status === "closed" ? (
-                  <Text
-                    style={[
-                      styles.finalScore,
-                      {
-                        color:
-                          game.homeScore > game.awayScore
-                            ? TeamColors.default.secondaryColor
-                            : "white",
-                      },
-                    ]}
-                  >
-                    {game.homeScore}
-                  </Text>
-                ) : null}
+                <Text
+                  style={[
+                    styles.finalScore,
+                    {
+                      color:
+                        game.homeScore > game.awayScore
+                          ? TeamColors.default.secondaryColor
+                          : "white",
+                    },
+                  ]}
+                >
+                  {game.homeScore}
+                </Text>
 
                 <View style={styles.teamsAndTimeContainer}>
                   <View style={styles.teamsContainer}>
@@ -221,26 +226,98 @@ function UpcomingGames({ currentDate }: UpcomingGamesProps) {
                     </Text>
                   </View>
                 </View>
-
-                {game.status === "closed" ? (
-                  <Text
-                    style={[
-                      styles.finalScore,
-                      {
-                        color:
-                          game.homeScore < game.awayScore
-                            ? TeamColors.default.secondaryColor
-                            : "white",
-                      },
-                    ]}
-                  >
-                    {game.awayScore}
-                  </Text>
-                ) : null}
+                <Text
+                  style={[
+                    styles.finalScore,
+                    {
+                      color:
+                        game.homeScore < game.awayScore
+                          ? TeamColors.default.secondaryColor
+                          : "white",
+                    },
+                  ]}
+                >
+                  {game.awayScore}
+                </Text>
               </View>
-            </Link>
-          </View>
-        );
+            </View>
+          );
+        }
+
+        // Scheduled Game Render
+        if (game.status === "scheduled") {
+          return (
+            <View key={index} style={styles.gameListContainer}>
+              <View style={styles.teamsAndTimeContainer}>
+                <View style={styles.teamsContainer}>
+                  <View style={styles.teamContainer}>
+                    <Text style={styles.homeAwayText}>Home</Text>
+                    <Image
+                      source={TeamLogos[game.home as keyof typeof TeamLogos]}
+                      style={styles.teamLogo}
+                    />
+                    <Text style={styles.teamNameText}>{game.home}</Text>
+                  </View>
+                  <Text style={styles.vsText}>VS</Text>
+                  <View style={styles.teamContainer}>
+                    <Text style={styles.homeAwayText}>Away</Text>
+
+                    <Image
+                      source={TeamLogos[game.away as keyof typeof TeamLogos]}
+                      style={styles.teamLogo}
+                    />
+                    <Text style={styles.teamNameText}>{game.away}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.time}>
+                  <Text style={{ color: "white", fontSize: 12 }}>
+                    {getStatusText(game.status, game.scheduledTime)}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          );
+        }
+
+        // In Progress Game Render
+        if (game.status === "inprogress") {
+          return (
+            <View key={index} style={styles.gameListContainer}>
+                <BoxScore gameID={game.id}>
+                <View style={styles.teamsAndTimeContainer}>
+                  <View style={styles.teamsContainer}>
+                    <View style={styles.teamContainer}>
+                      <Text style={styles.homeAwayText}>Home</Text>
+                      <Image
+                        source={TeamLogos[game.home as keyof typeof TeamLogos]}
+                        style={styles.teamLogo}
+                      />
+                      <Text style={styles.teamNameText}>{game.home}</Text>
+                    </View>
+                    <Text style={styles.vsText}>VS</Text>
+                    <View style={styles.teamContainer}>
+                      <Text style={styles.homeAwayText}>Away</Text>
+
+                      <Image
+                        source={TeamLogos[game.away as keyof typeof TeamLogos]}
+                        style={styles.teamLogo}
+                      />
+                      <Text style={styles.teamNameText}>{game.away}</Text>
+                    </View>
+                  </View>
+
+                  <View style={styles.time}>
+                    <Text style={{ color: "white", fontSize: 12 }}>
+                      {getStatusText(game.status, game.scheduledTime)}
+                    </Text>
+                  </View>
+                </View>
+                </BoxScore>
+            </View>
+          );
+        }
+
       })}
     </View>
   );
