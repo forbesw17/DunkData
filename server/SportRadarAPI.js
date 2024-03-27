@@ -59,3 +59,20 @@ export async function getGameBoxScore(gameID) {
     console.log(error);
   }
 };
+
+export async function getStandings() {
+  let config = {
+    method: 'get',
+    maxBodyLength: Infinity,
+    url: `https://api.sportradar.us/nba/trial/v8/en/seasons/2023/REG/standings.json?api_key=${process.env.EXPO_PUBLIC_SPORTS_RADAR_KEY}`,
+    headers: { }
+  };
+
+  try {
+    const response = await axios.request(config);
+    return response.data;
+  }
+  catch (error) {
+    console.log(error);
+  }
+};

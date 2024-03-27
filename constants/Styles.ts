@@ -17,7 +17,8 @@ export const defaultStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 24
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
   header: {
     fontSize: 24,
