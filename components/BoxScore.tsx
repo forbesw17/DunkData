@@ -29,7 +29,7 @@ const BoxScore: React.FC<BoxScoreProps> = ({ gameID, children }) => {
         const away = response.away.points;
 
 
-        console.log(response);
+        // console.log(response);
         setHomeScore(home);
         setAwayScore(away);
         setLoading(false);

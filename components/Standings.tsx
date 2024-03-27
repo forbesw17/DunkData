@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 
 import { getStandings } from '@/server/SportRadarAPI';
 
@@ -54,6 +54,9 @@ const Standings = () => {
   
         } catch (error) {
           console.error(error);
+
+          // Retry fetching standings every 5 seconds
+          setTimeout(() => fetchStandings(), 5000);
         }
       };
   
@@ -63,7 +66,7 @@ const Standings = () => {
     return (
       <View style={styles.container}>
         {loading ? (
-          <Text>Loading...</Text>
+          <ActivityIndicator size="large" color={TeamColors.default.secondaryColor} />
         ) : (
           Object.keys(standings).map((conference) => (
             <View key={conference}>
@@ -73,7 +76,7 @@ const Standings = () => {
                   <Text style={styles.division}>{division}</Text>
                   {standings[conference][division].map((team: TeamData) => (
                     <View key={team.name} style={styles.team}>
-                      <Text>{team.name}</Text>
+                      <Text style={{width: '50%'}}>{team.name}</Text>
                       <Text>{team.wins} - {team.losses}</Text>
                       <Text>{team.win_pct.toFixed(3)}</Text>
                     </View>
