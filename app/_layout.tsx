@@ -101,6 +101,18 @@ function RootLayoutNav() {
             ),
           }}
         />
+        <Stack.Screen
+          name="(modals)/settings"
+          options={{
+            presentation: "modal",
+            title: "Settings",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="close-outline" size={28} />
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
   );

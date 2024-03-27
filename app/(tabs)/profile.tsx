@@ -68,9 +68,9 @@ const Page = () => {
     <SafeAreaView style={defaultStyles.container}>
       <View style={defaultStyles.headerContainer}>
         <Text style={defaultStyles.header}>Profile</Text>
-        <TouchableOpacity>
+        <Link href={'/(modals)/settings'} asChild>
           <Ionicons name="settings-outline" color={'white'} size={26} />
-        </TouchableOpacity>
+        </Link>
       </View>
 
       {user && (
