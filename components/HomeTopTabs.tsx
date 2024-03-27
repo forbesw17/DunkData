@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { useRouter, Link } from "expo-router";
+import React from "react";
+import { Link } from "expo-router";
 import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+
+import { useUser, SignedIn, SignedOut } from "@clerk/clerk-expo";
+
 import Colors from "@/constants/Colors";
-import TeamColors from "@/constants/TeamColors";
+import { Ionicons } from "@expo/vector-icons";
 
 type HomeTopTabsProps = {
   selectedTab: string;
   setSelectedTab: (tab: string) => void;
 };
 
-const HomeTopTabs: React.FC<HomeTopTabsProps> = ({ selectedTab, setSelectedTab }) => {
-
-  const router = useRouter();
+const HomeTopTabs: React.FC<HomeTopTabsProps> = ({
+  selectedTab,
+  setSelectedTab,
+}) => {
+  const { user } = useUser();
 
   return (
     <View style={styles.container}>
@@ -22,31 +27,29 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({ selectedTab, setSelectedTab }
         />
       </View>
 
-      {/* <Pressable
-        style={[styles.tab, selectedTab === "Schedule" && styles.tabActive]}
-        onPress={() => { setSelectedTab("Schedule"); router.navigate("/(tabs)/(home)") }}
-      > */}
-      <Link href="/(tabs)/(home)" style={{padding: 10 }} >
-
+      <Link href="/(tabs)/(home)" style={{ padding: 10 }}>
         <Text style={styles.tabText}>Schedule</Text>
       </Link>
-      {/* </Pressable> */}
-      {/* <Pressable
-        style={[styles.tab, selectedTab === "News" && styles.tabActive]}
-        onPress={() => {setSelectedTab("News"); router.navigate("/(tabs)/(home)/news")}}
-      > */}
-      <Link href="/(tabs)/(home)/news" style={{padding: 10 }} >
+
+      <Link href="/(tabs)/(home)/news" style={{ padding: 10 }}>
         <Text style={styles.tabText}>News</Text>
       </Link>
-      {/* </Pressable> */}
-      {/* <Pressable
-        style={[styles.tab, selectedTab === "More" && styles.tabActive]}
-        onPress={() => setSelectedTab("More")}
-      > */}
-      <Link href={"/"} style={{padding: 10 }} >
-        <Text style={styles.tabText}>More</Text>
-      {/* </Pressable> */}
-      </Link>
+
+      <SignedIn>
+        <Pressable>
+          <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+        </Pressable>
+      </SignedIn>
+
+      <SignedOut>
+        <Link href={'/(modals)/login'}>
+          <Ionicons
+            name="person-circle"
+            size={40}
+            color={Colors.primary}
+          />
+        </Link>
+      </SignedOut>
     </View>
   );
 };
@@ -56,8 +59,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    // paddingHorizontal: 15,
-    // marginBottom: 10,
   },
   tab: {
     width: 95,
@@ -71,6 +72,12 @@ const styles = StyleSheet.create({
   tabText: {
     color: "white",
     fontSize: 14,
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    backgroundColor: Colors.grey,
   },
 });
 
