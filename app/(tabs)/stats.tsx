@@ -5,7 +5,6 @@ import {
   Text,
   ScrollView,
   RefreshControl,
-  ActivityIndicator,
 } from "react-native";
 
 // Components
@@ -14,7 +13,6 @@ import Standings from "@/components/Standings";
 
 // Styles
 import { defaultStyles } from "@/constants/Styles";
-import TeamColors from "@/constants/TeamColors";
 
 const Page = () => {
   const [refreshing, setRefreshing] = React.useState(false);
@@ -32,19 +30,10 @@ const Page = () => {
       </View>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['white']} tintColor={'white'} />
         }
       >
-        {refreshing ? (
-          <View>
-            <ActivityIndicator
-              size="large"
-              color={TeamColors.default.secondaryColor}
-            />
-          </View>
-        ) : (
           <Standings />
-        )}
       </ScrollView>
     </View>
   );

@@ -29,33 +29,33 @@ const DateScrollBar: React.FC<DateScrollBarProps> = ({
   selectedDate,
   setSelectedDate,
 }) => {
-
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
-    scrollToSelectedDate();
-  }, [[], selectedDate]);
-
-  const scrollToSelectedDate = () => {
     scrollViewRef.current?.scrollTo({ x: selectedDate * 140, animated: true });
-  };
+  }, [[], [selectedDate]]);
 
   return (
     <ScrollView
       ref={scrollViewRef}
       horizontal
       showsHorizontalScrollIndicator={false}
+      style={{ height: 45 }}
     >
       <View style={styles.container}>
-        {dates !== undefined && dates.map((date, index) => (
-          <Text
-            key={index}
-            style={[styles.date, index === selectedDate && styles.currentDate]}
-            onPress={() => setSelectedDate(index)}
-          >
-            {formatDate(date)}
-          </Text>
-        ))}
+        {dates !== undefined &&
+          dates.map((date, index) => (
+            <Text
+              key={index}
+              style={[
+                styles.date,
+                index === selectedDate && styles.currentDate,
+              ]}
+              onPress={() => setSelectedDate(index)}
+            >
+              {formatDate(date)}
+            </Text>
+          ))}
       </View>
     </ScrollView>
   );
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    padding: 10,
   },
   date: {
     marginHorizontal: 5,
