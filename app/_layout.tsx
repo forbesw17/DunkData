@@ -9,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { StatusBar } from "expo-status-bar";
 import { defaultStyles } from "@/constants/Styles";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -56,10 +57,15 @@ export default function RootLayout() {
 
   return (
     <SafeAreaView style={defaultStyles.container}>
-    <ClerkProvider publishableKey={CLERK_PUBLISHABLE_KEY!} tokenCache={tokenCache}>
-      <StatusBar style="light" />
-      <RootLayoutNav />
-    </ClerkProvider>
+      <ClerkProvider
+        publishableKey={CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <ThemeProvider>
+          <StatusBar style="light" />
+          <RootLayoutNav />
+        </ThemeProvider>
+      </ClerkProvider>
     </SafeAreaView>
   );
 }
@@ -76,44 +82,44 @@ function RootLayoutNav() {
   }, [isLoaded]);
 
   return (
-      <Stack screenOptions={{}}>
-        <Stack.Screen
-          name="(modals)/login"
-          options={{
-            presentation: "modal",
-            title: "Log in",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="close-outline" size={28} />
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="(modals)/signup"
-          options={{
-            presentation: "modal",
-            title: "Sign up",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="close-outline" size={28} />
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Stack.Screen
-          name="(modals)/settings"
-          options={{
-            presentation: "modal",
-            title: "Settings",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => router.back()}>
-                <Ionicons name="close-outline" size={28} />
-              </TouchableOpacity>
-            ),
-          }}
-        />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+    <Stack screenOptions={{}}>
+      <Stack.Screen
+        name="(modals)/login"
+        options={{
+          presentation: "modal",
+          title: "Log in",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={28} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="(modals)/signup"
+        options={{
+          presentation: "modal",
+          title: "Sign up",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={28} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="(modals)/settings"
+        options={{
+          presentation: "modal",
+          title: "Settings",
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={28} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+    </Stack>
   );
 }

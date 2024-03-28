@@ -13,7 +13,6 @@ const Page = () => {
   const [selectedDate, setSelectedDate] = useState(7); // Inital date index is today (7)
   const [dates, setDates] = useState<Date[]>([]);
 
-
   useEffect(() => {
     for (let i = -7; i <= 7; i++) {
       const date = new Date();
@@ -23,10 +22,10 @@ const Page = () => {
     setLoading(false);
   }, []);
 
-  const onRefresh = () => {
+  const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 2000);
-  }
+  }, []);
 
   if (loading) {
     return (

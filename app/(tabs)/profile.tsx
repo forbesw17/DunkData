@@ -68,9 +68,12 @@ const Page = () => {
     <SafeAreaView style={defaultStyles.container}>
       <View style={defaultStyles.headerContainer}>
         <Text style={defaultStyles.header}>Profile</Text>
+        <SignedIn>
         <Link href={'/(modals)/settings'} asChild>
           <Ionicons name="settings-outline" color={'white'} size={26} />
         </Link>
+        </SignedIn>
+       
       </View>
 
       {user && (
