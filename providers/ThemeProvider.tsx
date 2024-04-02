@@ -396,7 +396,7 @@ export const useTheme = () => useContext(ThemeContext);
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   const theme = user?.unsafeMetadata?.theme || "default";
-  const darkMode = user?.unsafeMetadata?.darkModeEnabled || false;
+  const darkMode = user?.unsafeMetadata?.darkModeEnabled || true;
 
   return (
     <ThemeContext.Provider
