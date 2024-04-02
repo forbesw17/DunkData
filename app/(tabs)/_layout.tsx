@@ -1,22 +1,17 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import TeamColors from '@/constants/TeamColors';
+import { useTheme } from '@/providers/ThemeProvider';
 
 const Layout = () => {
+  const { styles, primaryColor, secondaryColor, textColor } = useTheme();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarStyle: {
-          backgroundColor: TeamColors.default.primaryColor,
-          borderTopWidth: 1,
-          borderTopColor: TeamColors.default.primaryColor,
-          marginBottom: -20,
-          paddingVertical: 10,
-          // height: 90,
-        },
-        tabBarActiveTintColor: TeamColors.default.secondaryColor,
-        tabBarInactiveTintColor: TeamColors.default.text,
+        tabBarStyle: styles.tabBarStyle,
+        tabBarActiveTintColor: secondaryColor,
+        tabBarInactiveTintColor: textColor,
       }}>
       <Tabs.Screen
         name="(home)"

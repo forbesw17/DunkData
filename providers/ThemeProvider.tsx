@@ -1,37 +1,51 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 import { StyleSheet } from "react-native";
 import TeamColors from "@/constants/TeamColors";
 import Colors from "@/constants/Colors";
 
 import { useUser } from "@clerk/clerk-react";
 
-// Define your default styles function that takes a user object as parameter
-interface Theme {
-  primaryColor?: string;
-  secondaryColor?: string;
-  textColor?: string;
-}
+// interface User {
+//   unsafeMetadata?: {
+//     theme?: string;
+//   };
+// }
 
-interface User {
-  unsafeMetadata?: {
-    theme?: string;
-  };
-  theme?: Theme;
-}
+const getDefaultStyles = (theme: string, darkMode: boolean) => {
+  const themeColors = TeamColors[theme as keyof typeof TeamColors];
 
-const getDefaultStyles = (user: User) => {
-console.log("User: ", user);
+  let primaryColor;
+  let secondaryColor;
+  let textColor;
 
-const themeSelected = user.unsafeMetadata?.theme || "default";
-const primaryColor = TeamColors[themeSelected as keyof typeof TeamColors].primaryColor;
-const secondaryColor = TeamColors[themeSelected as keyof typeof TeamColors].secondaryColor;
-const text = TeamColors['default'].text;
+  if (darkMode) {
+    primaryColor = themeColors.dark.primaryColor;
+    secondaryColor = themeColors.dark.secondaryColor;
+    textColor = themeColors.dark.text;
+  } else {
+    primaryColor = themeColors.light.primaryColor;
+    secondaryColor = themeColors.light.secondaryColor;
+    textColor = themeColors.light.text;
+  }
 
-  return StyleSheet.create({
+  const styles =  StyleSheet.create({
+    // Constants
+
+    tabBarStyle: {
+      backgroundColor: primaryColor,
+      borderTopWidth: 1,
+      borderTopColor: primaryColor,
+      marginBottom: -20,
+      paddingVertical: 10,
+      // height: 90,
+    },
+    safeAreaView: {
+      flex: 1,
+      backgroundColor: secondaryColor,
+    },
     container: {
       flex: 1,
       backgroundColor: primaryColor,
-      // paddingHorizontal: 10,
     },
     userAuthContainer: {
       flex: 1,
@@ -49,25 +63,28 @@ const text = TeamColors['default'].text;
       fontSize: 24,
       fontWeight: "bold",
       letterSpacing: 0.25,
-      color: text,
+      color: secondaryColor,
     },
+
+    // Auth.tsx
+
     inputField: {
-      color: text,
+      color: textColor,
       height: 44,
       borderWidth: 1,
-      borderColor: "#ABABAB",
+      borderColor: textColor,
       borderRadius: 8,
       padding: 10,
     },
     btn: {
-      backgroundColor: secondaryColor || TeamColors.default.secondaryColor,
+      backgroundColor: secondaryColor,
       height: 50,
       borderRadius: 8,
       justifyContent: "center",
       alignItems: "center",
     },
     btnText: {
-      color: "#fff",
+      color: primaryColor,
       fontSize: 16,
     },
     btnIcon: {
@@ -102,23 +119,289 @@ const text = TeamColors['default'].text;
       borderTopWidth: StyleSheet.hairlineWidth,
     },
     text: {
-      color: text,
+      color: textColor,
+    },
+
+    // HomeTopTabs.tsx
+    topTabsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+    },
+    topTabsTab: {
+      width: 95,
+      alignItems: "center",
+      padding: 5,
+    },
+    topTabActive: {
+      borderBottomColor: Colors.primary,
+      borderBottomWidth: 1,
+    },
+    topTabText: {
+      color: secondaryColor,
+      fontWeight: "bold",
+      fontSize: 14,
+    },
+    topTabAvatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 50,
+      backgroundColor: Colors.grey,
+    },
+
+    // LatestNews.tsx
+    articleContainer: {
+      flexDirection: "column",
+      // backgroundColor: secondaryColor,
+      borderRadius: 15,
+      marginBottom: 15,
+    },
+    articleTitle: {
+      color: textColor,
+      fontSize: 16,
+      fontWeight: "bold",
+    },
+
+    // DateScrollBar.tsx
+    dateScrollBarContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    date: {
+      marginHorizontal: 5,
+      color: textColor,
+      borderWidth: 1,
+      borderColor: secondaryColor,
+      borderRadius: 10,
+      padding: 10,
+    },
+    currentDate: {
+      fontWeight: "bold",
+    },
+
+    // Schedule.tsx
+
+    gameListContainer: {
+      borderColor: secondaryColor,
+      borderBottomWidth: 1,
+      marginVertical: 5,
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 10,
+    },
+    gameContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    teamsAndTimeContainer: {
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    teamsContainer: {
+      padding: 10,
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 15,
+    },
+    teamContainer: {
+      alignItems: "center",
+      width: 90,
+      height: 100,
+    },
+    time: {
+      alignItems: "center",
+      gap: 10,
+    },
+    teamLogo: {
+      height: 70,
+      width: 70,
+    },
+    finalScore: {
+      fontSize: 30,
+      fontWeight: "bold",
+    },
+
+    homeAwayText: {
+      color: textColor,
+      fontSize: 9,
+      fontWeight: "bold",
+    },
+    teamNameText: {
+      color: textColor,
+      fontSize: 10,
+      textAlign: "center",
+      fontWeight: "bold",
+    },
+    vsText: {
+      fontSize: 15,
+      color: textColor,
+      fontWeight: "bold",
+    },
+
+    // BoxScore.tsx
+    boxscoreContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    boxScoreText: {
+      color: textColor,
+      fontSize: 30,
+      fontWeight: "bold",
+    },
+
+    // SearchBar.tsx
+    searchBarContainer: {
+      flexDirection: "row",
+      width: '75%',
+      backgroundColor: textColor,
+      borderRadius: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 20,
+    },
+    searchBarInput: {
+      flex: 1,
+      marginLeft: 10,
+      fontSize: 14,
+      color: primaryColor,
+    },
+    searchBarIcon: {
+      marginRight: 10,
+    },
+
+    // Standings.tsx
+    standingsContainer: {
+      flex: 1,
+      paddingHorizontal: 20,
+      backgroundColor: primaryColor,
+    },
+    standingsConference: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      color: secondaryColor,
+      marginTop: 10,
+    },
+    standingsDivision: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: textColor,
+      marginTop: 8,
+    },
+    standingsTeam: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 10,
+      marginTop: 5,
+      backgroundColor: '#FFF',
+      borderRadius: 5,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.3,
+      shadowRadius: 2,
+      elevation: 3,
+    },
+
+    // Profile.tsx
+    profileCard: {
+      backgroundColor: secondaryColor,
+      padding: 24,
+      borderRadius: 16,
+      marginHorizontal: 24,
+      marginTop: 24,
+      elevation: 2,
+      shadowColor: '#000',
+      shadowOpacity: 0.2,
+      shadowRadius: 6,
+      shadowOffset: {
+        width: 1,
+        height: 2,
+      },
+      alignItems: 'center',
+      gap: 14,
+      marginBottom: 24,
+    },
+    profileAvatar: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      backgroundColor: Colors.grey,
+    },
+    profileEditRow: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 8,
+    },
+
+    // Settings.tsx
+    settingsContainer: {
+      flex: 1,
+      backgroundColor: primaryColor,
+      padding: 20,
+      gap: 20,
+    },
+    settingsGroup: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    settingLabel: {
+      color: textColor,
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    settingsButtonContainer: {
+      backgroundColor: secondaryColor,
+      padding: 10,
+      borderRadius: 15,
+      alignItems: "center",
+      marginBottom: 40,
+    },
+    settingsButtonText: {
+      color: primaryColor,
+      fontSize: 20,
+    },
+
+    // ThemeSelection.tsx
+
+    themeSelectionContainer: {
+      backgroundColor: "white",
+      borderRadius: 15,
+    },
+
+    // Seperator.tsx
+
+    seperatorView: {
+      flexDirection: 'row',
+      gap: 10,
+      alignItems: 'center',
+      marginVertical: 30,
+      paddingHorizontal: 20,
+    },
+    seperator: {
+      color: textColor,
+      fontSize: 16,
     },
   });
+  return { styles, primaryColor, secondaryColor, textColor };
 };
 
-// Create a context to hold the styles
-const ThemeContext = createContext(getDefaultStyles);
+const ThemeContext = createContext(getDefaultStyles("default", false));
 
-// Create a custom hook to access the theme
 export const useTheme = () => useContext(ThemeContext);
 
-// Create a context to hold the styles
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const user = useUser();
+  const { user } = useUser();
+  const theme = user?.unsafeMetadata?.theme || "default";
+  const darkMode = user?.unsafeMetadata?.darkModeEnabled || false;
 
   return (
-    <ThemeContext.Provider value={getDefaultStyles}>
+    <ThemeContext.Provider
+      value={getDefaultStyles(theme as string, darkMode as boolean)}
+    >
       {children}
     </ThemeContext.Provider>
   );

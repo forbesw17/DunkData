@@ -8,12 +8,12 @@ import {
   Pressable,
 } from "react-native";
 
-import Colors from "@/constants/Colors";
+import { useTheme } from "@/providers/ThemeProvider";
 
 import { getLastestNews } from "@/server/PerigonAPI"; // Assuming PerigonAPI is the correct one to import
-import { defaultStyles } from "@/constants/Styles";
 
 const LatestNews = () => {
+  const { styles } = useTheme();
   // const [news, setNews] = useState<{ articles: any[]; } | undefined >();
   const news = [
     {
@@ -140,19 +140,5 @@ const LatestNews = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  articleContainer: {
-    flexDirection: "column",
-    backgroundColor: "white",
-    borderRadius: 15,
-    marginBottom: 10,
-  },
-  articleTitle: {
-    color: "black",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
 
 export default LatestNews;

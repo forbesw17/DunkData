@@ -1,16 +1,15 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch } from 'react-native';
 
 interface SwitchSelectionProps {
     onSelectionChange: (isEnabled: boolean) => void;
+    isEnabled: boolean;
 }
 
-const SwitchSelection: React.FC<SwitchSelectionProps> = ({ onSelectionChange }) => {
-    const [isEnabled, setIsEnabled] = useState(false);
+const SwitchSelection: React.FC<SwitchSelectionProps> = ({ isEnabled, onSelectionChange }) => {
 
     const handleSelectionChange = (value: boolean) => {
-        setIsEnabled(value);
         onSelectionChange(value);
     };
 

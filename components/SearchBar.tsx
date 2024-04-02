@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { TextInput, View, StyleSheet } from "react-native";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { useTheme } from "@/providers/ThemeProvider";
 
 interface SearchBarProps {
   onSearch: (text: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const { styles, primaryColor } = useTheme();
   const [searchText, setSearchText] = useState("");
 
   const handleSearch = () => {
@@ -15,17 +17,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.searchBarContainer}>
       <FontAwesome
         name="search"
         size={20}
-        color="black"
-        style={styles.searchIcon}
+        color={primaryColor}
+        style={styles.searchBarIcon}
       />
       <TextInput
-        style={styles.input}
+        style={styles.searchBarInput}
         placeholder="Search..."
-        placeholderTextColor={"#333"}
+        placeholderTextColor={primaryColor}
         onChangeText={setSearchText}
         onSubmitEditing={handleSearch}
         value={searchText}
@@ -33,25 +35,5 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    width: '75%',
-    backgroundColor: "white",
-    borderRadius: 20,
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-  },
-  input: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 14,
-    color: "#333",
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-});
 
 export default SearchBar;

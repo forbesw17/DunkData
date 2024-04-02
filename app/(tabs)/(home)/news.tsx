@@ -1,13 +1,15 @@
 import React from "react";
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from "react-native";
+import { StyleSheet, SafeAreaView, ScrollView } from "react-native";
 
 // Styles
-import { defaultStyles } from "@/constants/Styles";
+import { useTheme } from "@/providers/ThemeProvider";
 import LatestNews from "@/components/LastestNews";
 
 const Page = () => {
+  const { styles } = useTheme();
+
   return (
-    <SafeAreaView style={defaultStyles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
         <LatestNews />
       </ScrollView>

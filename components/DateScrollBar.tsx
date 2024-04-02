@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { View, ScrollView, Text, StyleSheet } from "react-native";
-
-import TeamColors from "@/constants/TeamColors";
+import { useTheme } from "@/providers/ThemeProvider";
 
 const formatDate = (date: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -29,6 +28,7 @@ const DateScrollBar: React.FC<DateScrollBarProps> = ({
   selectedDate,
   setSelectedDate,
 }) => {
+  const { styles } = useTheme();
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const DateScrollBar: React.FC<DateScrollBarProps> = ({
       showsHorizontalScrollIndicator={false}
       style={{ height: 45 }}
     >
-      <View style={styles.container}>
+      <View style={styles.dateScrollBarContainer}>
         {dates !== undefined &&
           dates.map((date, index) => (
             <Text
@@ -60,23 +60,5 @@ const DateScrollBar: React.FC<DateScrollBarProps> = ({
     </ScrollView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  date: {
-    marginHorizontal: 5,
-    color: "white",
-    borderWidth: 0.5,
-    borderColor: TeamColors.default.secondaryColor,
-    borderRadius: 10,
-    padding: 10,
-  },
-  currentDate: {
-    fontWeight: "bold",
-  },
-});
 
 export default DateScrollBar;

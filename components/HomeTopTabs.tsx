@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "expo-router";
-import { StyleSheet, View, Text, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 
 import { useUser, SignedIn, SignedOut } from "@clerk/clerk-expo";
+import { useTheme } from "@/providers/ThemeProvider";
 
 import Colors from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,10 +17,11 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({
   selectedTab,
   setSelectedTab,
 }) => {
+  const { styles } = useTheme();
   const { user } = useUser();
 
   return (
-    <View style={styles.container}>
+    <View style={styles.topTabsContainer}>
       <View>
         <Image
           source={require("@/assets/images/DunkData.png")}
@@ -28,16 +30,16 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({
       </View>
 
       <Link href="/(tabs)/(home)" style={{ padding: 10 }}>
-        <Text style={styles.tabText}>Schedule</Text>
+        <Text style={styles.topTabText}>Schedule</Text>
       </Link>
 
       <Link href="/(tabs)/(home)/news" style={{ padding: 10 }}>
-        <Text style={styles.tabText}>News</Text>
+        <Text style={styles.topTabText}>News</Text>
       </Link>
 
       <SignedIn>
         <Pressable>
-          <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+          <Image source={{ uri: user?.imageUrl }} style={styles.topTabAvatar} />
         </Pressable>
       </SignedIn>
 
@@ -53,32 +55,5 @@ const HomeTopTabs: React.FC<HomeTopTabsProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-  },
-  tab: {
-    width: 95,
-    alignItems: "center",
-    padding: 5,
-  },
-  tabActive: {
-    borderBottomColor: Colors.primary,
-    borderBottomWidth: 1,
-  },
-  tabText: {
-    color: "white",
-    fontSize: 14,
-  },
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    backgroundColor: Colors.grey,
-  },
-});
 
 export default HomeTopTabs;

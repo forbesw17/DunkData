@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
 
 // Styles
-import { defaultStyles } from "@/constants/Styles";
+import { useTheme } from "@/providers/ThemeProvider";
 import DateScrollBar from "@/components/DateScrollBar";
 import Schedule from "@/components/Schedule";
 import TeamColors from "@/constants/TeamColors";
 
 const Page = () => {
+  const { styles, primaryColor, secondaryColor, textColor } = useTheme();
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedDate, setSelectedDate] = useState(7); // Inital date index is today (7)
@@ -29,21 +30,21 @@ const Page = () => {
 
   if (loading) {
     return (
-      <View style={defaultStyles.container}>
+      <View style={styles.container}>
         <ActivityIndicator size="large" color="white" />
       </View>
     );
   }
   return (
-    <View style={defaultStyles.container}>
+    <View style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={[TeamColors.default.secondaryColor]}
-            tintColor={TeamColors.default.text}
+            colors={[secondaryColor]}
+            tintColor={textColor}
           />
         }
       >

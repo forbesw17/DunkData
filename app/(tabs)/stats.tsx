@@ -1,20 +1,18 @@
 import React from "react";
 import {
-  SafeAreaView,
   View,
   Text,
   ScrollView,
   RefreshControl,
 } from "react-native";
+import { useTheme } from "@/providers/ThemeProvider";
 
 // Components
 import SearchBar from "@/components/SearchBar";
 import Standings from "@/components/Standings";
 
-// Styles
-import { defaultStyles } from "@/constants/Styles";
-
 const Page = () => {
+  const { styles } = useTheme();
   const [refreshing, setRefreshing] = React.useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -23,9 +21,9 @@ const Page = () => {
   }, []);
 
   return (
-    <View style={defaultStyles.container}>
-      <View style={defaultStyles.headerContainer}>
-        <Text style={defaultStyles.header}>Stats</Text>
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Stats</Text>
         <SearchBar onSearch={(text) => console.log(text)} />
       </View>
       <ScrollView

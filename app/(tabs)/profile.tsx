@@ -5,15 +5,14 @@ import { Link } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 
 // Styles
-import Colors from "@/constants/Colors";
-import { defaultStyles } from "@/constants/Styles";
 import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "@/providers/ThemeProvider";
 
 // Components
 import Seperator from "@/components/Seperator";
-import TeamColors from "@/constants/TeamColors";
 
 const Page = () => {
+  const { styles, primaryColor, secondaryColor, textColor } = useTheme();
   const { signOut } = useAuth();
   const { user } = useUser();
   const [firstName, setFirstName] = useState(user?.firstName);
@@ -65,71 +64,71 @@ const Page = () => {
   };
 
   return (
-    <SafeAreaView style={defaultStyles.container}>
-      <View style={defaultStyles.headerContainer}>
-        <Text style={defaultStyles.header}>Profile</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Profile</Text>
         <SignedIn>
         <Link href={'/(modals)/settings'} asChild>
-          <Ionicons name="settings-outline" color={'white'} size={26} />
+          <Ionicons name="settings-outline" color={secondaryColor} size={26} />
         </Link>
         </SignedIn>
        
       </View>
 
       {user && (
-        <View style={styles.card}>
+        <View style={styles.profileCard}>
           <TouchableOpacity onPress={onCaptureImage}>
-            <Image source={{ uri: user?.imageUrl }} style={styles.avatar} />
+            <Image source={{ uri: user?.imageUrl }} style={styles.profileAvatar} />
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', gap: 6 }}>
             {!edit && (
-              <View style={styles.editRow}>
-                <Text style={{ fontSize: 22, color: TeamColors.default.primaryColor, fontWeight: 'bold' }}>
+              <View style={styles.profileEditRow}>
+                <Text style={{ fontSize: 22, color: primaryColor, fontWeight: 'bold' }}>
                   {firstName} {lastName}
                 </Text>
                 <TouchableOpacity onPress={() => setEdit(true)}>
-                  <Ionicons name="create-outline" size={24} color={Colors.dark} />
+                  <Ionicons name="create-outline" size={24} color={primaryColor} />
                 </TouchableOpacity>
               </View>
             )}
             {edit && (
-              <View style={styles.editRow}>
+              <View style={styles.profileEditRow}>
                 <TextInput
                   placeholder="First Name"
                   value={firstName || ''}
                   onChangeText={setFirstName}
-                  style={[defaultStyles.inputField, { width: 100 }]}
+                  style={[styles.inputField, { width: 100 }]}
                 />
                 <TextInput
                   placeholder="Last Name"
                   value={lastName || ''}
                   onChangeText={setLastName}
-                  style={[defaultStyles.inputField, { width: 100 }]}
+                  style={[styles.inputField, { width: 100 }]}
                 />
                 <TouchableOpacity onPress={onSaveUser}>
-                  <Ionicons name="checkmark-outline" size={24} color={Colors.dark} />
+                  <Ionicons name="checkmark-outline" size={24} color={primaryColor} />
                 </TouchableOpacity>
               </View>
             )}
           </View>
-          <Text style={{color: TeamColors.default.primaryColor}}>{email}</Text>
-          <Text style={{color: TeamColors.default.primaryColor}}>Since {user?.createdAt!.toLocaleDateString()}</Text>
+          <Text style={{color: primaryColor}}>{email}</Text>
+          <Text style={{color: primaryColor}}>Since {user?.createdAt!.toLocaleDateString()}</Text>
         </View>
       )}
 
       <SignedIn>
-        <Button title="Log Out" onPress={() => signOut()} color={TeamColors.default.text} />
+        <Button title="Log Out" onPress={() => signOut()} color={textColor} />
       </SignedIn>
 
       <SignedOut>
         <Link href={'/(modals)/login'} asChild>
-          <Button title="Log In" color={TeamColors.default.text} />
+          <Button title="Log In" color={textColor} />
         </Link>
         
         <Seperator placeholder="or" />
 
         <Link href={'/(modals)/signup'} asChild>
-          <Button title="Sign Up" color={TeamColors.default.text} />
+          <Button title="Sign Up" color={textColor} />
         </Link>
       </SignedOut>
 
@@ -138,38 +137,5 @@ const Page = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: TeamColors.default.secondaryColor,
-    padding: 24,
-    borderRadius: 16,
-    marginHorizontal: 24,
-    marginTop: 24,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    shadowOffset: {
-      width: 1,
-      height: 2,
-    },
-    alignItems: 'center',
-    gap: 14,
-    marginBottom: 24,
-  },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: Colors.grey,
-  },
-  editRow: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-});
 
 export default Page;

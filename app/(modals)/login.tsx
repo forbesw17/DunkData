@@ -1,4 +1,3 @@
-import Colors from "@/constants/Colors";
 import React, { useState } from "react";
 import {
   View,
@@ -12,13 +11,10 @@ import { useOAuth, useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 
-// Styles
-import { defaultStyles } from "@/constants/Styles";
-
 // Components
 import { useWarmUpBrowser } from "@/hooks/useWarmUpBrowser";
 import Seperator from "@/components/Seperator";
-import TeamColors from "@/constants/TeamColors";
+import { useTheme } from "@/providers/ThemeProvider";
 
 enum Strategy {
   Google = "oauth_google",
@@ -28,6 +24,7 @@ enum Strategy {
 
 export default function Page() {
   useWarmUpBrowser();
+  const { styles, secondaryColor, textColor } = useTheme();
   const router = useRouter();
   const { signIn, setActive, isLoaded } = useSignIn()
   const [emailAddress, setEmailAddress] = useState("");
@@ -80,65 +77,65 @@ export default function Page() {
   };
 
   return (
-    <View style={defaultStyles.userAuthContainer}>
+    <View style={styles.userAuthContainer}>
       <TextInput
         autoCapitalize="none"
         value={emailAddress}
         placeholder="Email"
-        placeholderTextColor={TeamColors.default.text}
+        placeholderTextColor={textColor}
         onChangeText={(email) => setEmailAddress(email)}
-        style={[defaultStyles.inputField, { marginBottom: 20 }]}
+        style={[styles.inputField, { marginBottom: 20 }]}
       />
 
       <TextInput
         autoCapitalize="none"
         value={password}
         placeholder="Password"
-        placeholderTextColor={TeamColors.default.text}
+        placeholderTextColor={textColor}
         secureTextEntry={true}
         onChangeText={(password) => setPassword(password)}
-        style={[defaultStyles.inputField, { marginBottom: 20 }]}
+        style={[styles.inputField, { marginBottom: 20 }]}
       />
 
-      <TouchableOpacity style={defaultStyles.btn} onPress={onSignInPress}>
-        <Text style={defaultStyles.btnText}>Continue</Text>
+      <TouchableOpacity style={styles.btn} onPress={onSignInPress}>
+        <Text style={styles.btnText}>Continue</Text>
       </TouchableOpacity>
 
       <Seperator placeholder="or" />
 
       <View style={{ gap: 20 }}>
         <TouchableOpacity
-          style={defaultStyles.btnOutline}
+          style={styles.btnOutline}
           onPress={() => onSelectAuth(Strategy.Apple)}
         >
-          <Ionicons name="logo-apple" size={24} style={defaultStyles.btnIcon} />
-          <Text style={defaultStyles.btnOutlineText}>Continue with Apple</Text>
+          <Ionicons name="logo-apple" size={24} style={styles.btnIcon} />
+          <Text style={styles.btnOutlineText}>Continue with Apple</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={defaultStyles.btnOutline}
+          style={styles.btnOutline}
           onPress={() => onSelectAuth(Strategy.Google)}
         >
           <Ionicons
             name="logo-google"
             size={24}
             color={'#DB4437'}
-            style={defaultStyles.btnIcon}
+            style={styles.btnIcon}
           />
-          <Text style={defaultStyles.btnOutlineText}>Continue with Google</Text>
+          <Text style={styles.btnOutlineText}>Continue with Google</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={defaultStyles.btnOutline}
+          style={styles.btnOutline}
           onPress={() => onSelectAuth(Strategy.Facebook)}
         >
           <Ionicons
             name="logo-facebook"
             size={24}
             color={'#3b5998'}
-            style={defaultStyles.btnIcon}
+            style={styles.btnIcon}
           />
-          <Text style={defaultStyles.btnOutlineText}>
+          <Text style={styles.btnOutlineText}>
             Continue with Facebook
           </Text>
         </TouchableOpacity>
@@ -146,7 +143,7 @@ export default function Page() {
         <Button
           title="Don't have an account?"
           onPress={() => router.replace("/(modals)/signup")}
-          color={TeamColors.default.secondaryColor}
+          color={secondaryColor}
         />
       </View>
     </View>

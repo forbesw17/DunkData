@@ -1,30 +1,24 @@
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { View } from "react-native";
 import { Stack } from "expo-router";
 import HomeTopTabs from "@/components/HomeTopTabs";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { defaultStyles } from "@/constants/Styles";
+import { useTheme } from "@/providers/ThemeProvider";
 
 export default function HomeLayout() {
-
   const [selectedTab, setSelectedTab] = useState("Schedule");
-
-  const router = useRouter();
-
+  const { styles } = useTheme();
+  
   return (
-    <View style={defaultStyles.container}>
+    <View style={styles.container}>
       <HomeTopTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
       <View style={{ flex: 1 }}>
-      <HomeLayoutNav />
+        <HomeLayoutNav />
       </View>
     </View>
   );
 }
 
- function HomeLayoutNav() {
-
+function HomeLayoutNav() {
   return (
     <Stack>
       <Stack.Screen
@@ -34,10 +28,20 @@ export default function HomeLayout() {
           gestureEnabled: false,
         }}
       />
-      <Stack.Screen name="news" options={{
-        headerShown: false,
-        gestureEnabled: false,
-      }} />
+      <Stack.Screen
+        name="news"
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
     </Stack>
   );
 }

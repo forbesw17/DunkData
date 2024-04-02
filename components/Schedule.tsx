@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, ActivityIndicator, View, Text, Image, ScrollView } from "react-native";
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  Image,
+} from "react-native";
 
 // API
-import { getUpcomingGames, getGameBoxScore } from "@/server/SportRadarAPI"; // Import the function from your API file
+import { getUpcomingGames } from "@/server/SportRadarAPI"; // Import the function from your API file
 
 // Assets
 import { TeamLogos } from "./TeamLogos";
 import Colors from "@/constants/Colors";
 import TeamColors from "@/constants/TeamColors";
 import BoxScore from "./BoxScore";
+import { useTheme } from "@/providers/ThemeProvider";
 
 /* Returns the status text for a game
     If the game is in progress, return "Live"
@@ -30,6 +36,7 @@ interface UpcomingGamesProps {
 }
 
 function Schedule({ currentDate }: UpcomingGamesProps) {
+  const { styles, secondaryColor, textColor } = useTheme();
   const [loading, setLoading] = useState(true);
   const [gamesData, setGamesData] = useState<{ date: String; games: any[] }>({
     date: "",
@@ -70,7 +77,7 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
     return (
       <ActivityIndicator
         size="large"
-        color={TeamColors.default.secondaryColor}
+        color={TeamColors.default.light.secondaryColor}
       />
     );
   }
@@ -80,7 +87,7 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
     // Loop through the games and render each game
     <View style={{ paddingHorizontal: 10 }}>
       {gamesData.games.map((game, index) => {
-
+        
         // Closed Game Render
         if (game.status === "closed") {
           return (
@@ -92,8 +99,8 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                     {
                       color:
                         game.homeScore > game.awayScore
-                          ? TeamColors.default.secondaryColor
-                          : "white",
+                          ? secondaryColor
+                          : textColor,
                     },
                   ]}
                 >
@@ -134,8 +141,8 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                     {
                       color:
                         game.homeScore < game.awayScore
-                          ? TeamColors.default.secondaryColor
-                          : "white",
+                          ? secondaryColor
+                          : textColor,
                     },
                   ]}
                 >
@@ -173,7 +180,7 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                 </View>
 
                 <View style={styles.time}>
-                  <Text style={{ color: "white", fontSize: 12 }}>
+                  <Text style={{ color: textColor, fontSize: 12 }}>
                     {getStatusText(game.status, game.scheduledTime)}
                   </Text>
                 </View>
@@ -186,7 +193,7 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
         if (game.status === "inprogress") {
           return (
             <View key={index} style={styles.gameListContainer}>
-                <BoxScore gameID={game.id}>
+              <BoxScore gameID={game.id}>
                 <View style={styles.teamsAndTimeContainer}>
                   <View style={styles.teamsContainer}>
                     <View style={styles.teamContainer}>
@@ -210,98 +217,18 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                   </View>
 
                   <View style={styles.time}>
-                    <Text style={{ color: "white", fontSize: 12 }}>
+                    <Text style={{ color: textColor, fontSize: 12 }}>
                       {getStatusText(game.status, game.scheduledTime)}
                     </Text>
                   </View>
                 </View>
-                </BoxScore>
+              </BoxScore>
             </View>
           );
         }
-
       })}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#000",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  headerText: {
-    color: "white",
-    fontSize: 24,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  gameListContainer: {
-    borderColor: TeamColors.default.secondaryColor,
-    borderBottomWidth: 1,
-    marginVertical: 5,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-  },
-  gameContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  teamsAndTimeContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  teamsContainer: {
-    padding: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  teamContainer: {
-    alignItems: "center",
-    width: 90,
-    height: 100,
-  },
-  time: {
-    alignItems: "center",
-    gap: 10,
-  },
-  teamLogo: {
-    height: 70,
-    width: 70,
-  },
-  finalScore: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-
-  homeAwayText: {
-    color: "white",
-    fontSize: 9,
-    fontWeight: "bold",
-  },
-  teamNameText: {
-    color: "white",
-    fontSize: 10,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-
-  vsText: {
-    fontSize: 15,
-    color: "white",
-    fontWeight: "bold",
-  },
-});
 
 export default Schedule;

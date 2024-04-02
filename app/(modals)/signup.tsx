@@ -9,15 +9,11 @@ import {
 } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
-
-// Styles
-import { defaultStyles } from "@/constants/Styles";
-import Colors from "@/constants/Colors";
-import TeamColors from "@/constants/TeamColors";
+import { useTheme } from "@/providers/ThemeProvider";
 
 export default function SignUpScreen() {
   const router = useRouter();
-
+  const { styles, secondaryColor, textColor } = useTheme();
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const [firstName, setFirstName] = useState("");
@@ -78,50 +74,50 @@ export default function SignUpScreen() {
   };
 
   return (
-    <View style={defaultStyles.userAuthContainer}>
+    <View style={styles.userAuthContainer}>
       {!pendingVerification && (
         <View style={{ gap: 20 }}>
           <TextInput
-            style={defaultStyles.inputField}
+            style={styles.inputField}
             autoCapitalize="none"
             value={firstName}
             placeholder="First Name"
-            placeholderTextColor={TeamColors.default.text}
+            placeholderTextColor={textColor}
             onChangeText={(firstName) => setFirstName(firstName)}
           />
 
           <TextInput
-            style={defaultStyles.inputField}
+            style={styles.inputField}
             autoCapitalize="none"
             value={lastName}
             placeholder="Last Name"
-            placeholderTextColor={TeamColors.default.text}
+            placeholderTextColor={textColor}
             onChangeText={(lastName) => setLastName(lastName)}
           />
 
           <TextInput
-            style={defaultStyles.inputField}
+            style={styles.inputField}
             autoCapitalize="none"
             value={emailAddress}
             placeholder="Email"
-            placeholderTextColor={TeamColors.default.text}
+            placeholderTextColor={textColor}
             onChangeText={(email) => setEmailAddress(email)}
           />
 
           <TextInput
-            style={defaultStyles.inputField}
+            style={styles.inputField}
             value={password}
             placeholder="Password"
             secureTextEntry={true}
-            placeholderTextColor={TeamColors.default.text}
+            placeholderTextColor={textColor}
             onChangeText={(password) => setPassword(password)}
           />
 
           <TextInput
-            style={defaultStyles.inputField}
+            style={styles.inputField}
             value={confirmPassword}
             placeholder="Confirm Password"
-            placeholderTextColor={TeamColors.default.text}
+            placeholderTextColor={textColor}
             secureTextEntry={true}
             onChangeText={(confirmPassword) =>
               setConfirmPassword(confirmPassword)
@@ -129,31 +125,31 @@ export default function SignUpScreen() {
           />
 
           {password !== confirmPassword && (
-            <Text style={{ color: Colors.primary, fontWeight: 'bold' }}>Passwords do not match</Text>
+            <Text style={{ color: textColor, fontWeight: 'bold' }}>Passwords do not match</Text>
           )}
 
-          <Text style={{ color: "gray" }}>
+          <Text style={{ color: secondaryColor }}>
             - Password must be 8 characters in length
           </Text>
 
-          <TouchableOpacity style={defaultStyles.btn} onPress={onSignUpPress}>
-            <Text style={defaultStyles.btnText}>Sign up</Text>
+          <TouchableOpacity style={styles.btn} onPress={onSignUpPress}>
+            <Text style={styles.btnText}>Sign up</Text>
           </TouchableOpacity>
 
-          <Text style={{ color: "gray" }}>
+          <Text style={{ color: secondaryColor }}>
             By signing up, you agree to our Terms of Service and Privacy Policy.
           </Text>
 
           <Button
             title="Already have an account?"
             onPress={() => router.replace("/(modals)/login")}
-            color={TeamColors.default.secondaryColor}
+            color={secondaryColor}
           />
         </View>
       )}
       {pendingVerification && (
         <View style={{ gap: 20 }}>
-          <Text style={{ color: "gray", fontWeight: 'bold' }}>
+          <Text style={{ color: secondaryColor, fontWeight: 'bold' }}>
             A verification code has been sent to your email.
           </Text>
           <View>
@@ -161,11 +157,11 @@ export default function SignUpScreen() {
               value={code}
               placeholder="Code"
               onChangeText={(code) => setCode(code)}
-              style={defaultStyles.inputField}
+              style={styles.inputField}
             />
           </View>
-          <TouchableOpacity style={defaultStyles.btn} onPress={onPressVerify}>
-            <Text style={defaultStyles.btnText}>Verify Email</Text>
+          <TouchableOpacity style={styles.btn} onPress={onPressVerify}>
+            <Text style={styles.btnText}>Verify Email</Text>
           </TouchableOpacity>
         </View>
       )}

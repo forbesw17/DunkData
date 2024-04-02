@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator } from "react-native";
+import { useTheme } from "@/providers/ThemeProvider";
 
 // API
 import { getGameBoxScore } from "@/server/SportRadarAPI"; // Import the function from your API file
@@ -12,6 +13,7 @@ interface BoxScoreProps {
 }
 
 const BoxScore: React.FC<BoxScoreProps> = ({ gameID, children }) => {
+  const { styles, secondaryColor } = useTheme();
   const [homeScore, setHomeScore] = useState<number | null>(null);
   const [awayScore, setAwayScore] = useState<number | null>(null);
 
@@ -54,40 +56,27 @@ const BoxScore: React.FC<BoxScoreProps> = ({ gameID, children }) => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={styles.boxscoreContainer}>
         <ActivityIndicator
           size="small"
-          color={TeamColors.default.secondaryColor}
+          color={secondaryColor}
         />
         {children}
         <ActivityIndicator
           size="small"
-          color={TeamColors.default.secondaryColor}
+          color={secondaryColor}
         />
       </View>
     );
   } else {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{homeScore}</Text>
+        <Text style={styles.boxScoreText}>{homeScore}</Text>
         {children}
-        <Text style={styles.text}>{awayScore}</Text>
+        <Text style={styles.boxScoreText}>{awayScore}</Text>
       </View>
     );
   }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  text: {
-    color: "white",
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-});
 
 export default BoxScore;
