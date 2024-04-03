@@ -33,11 +33,7 @@ const getDefaultStyles = (theme: string, darkMode: boolean) => {
 
     tabBarStyle: {
       backgroundColor: primaryColor,
-      borderTopWidth: 1,
-      borderTopColor: primaryColor,
-      marginBottom: -20,
-      paddingVertical: 10,
-      // height: 90,
+      borderTopColor: secondaryColor
     },
     safeAreaView: {
       flex: 1,
@@ -396,7 +392,10 @@ export const useTheme = () => useContext(ThemeContext);
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
   const theme = user?.unsafeMetadata?.theme || "default";
-  const darkMode = user?.unsafeMetadata?.darkModeEnabled || true;
+  const darkMode = user?.unsafeMetadata?.darkModeEnabled || false;
+
+  console.log("theme", theme);
+  console.log("darkMode", darkMode);
 
   return (
     <ThemeContext.Provider
