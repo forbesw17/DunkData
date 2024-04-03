@@ -140,11 +140,9 @@ export default function Page() {
           </Text>
         </TouchableOpacity>
 
-        <Button
-          title="Don't have an account?"
-          onPress={() => router.replace("/(modals)/signup")}
-          color={secondaryColor}
-        />
+        <TouchableOpacity style={styles.oppositeBtn} onPress={() => router.replace("/(modals)/signup")}>
+            <Text style={styles.oppositeBtnText}>Don't have an account?</Text>
+          </TouchableOpacity>
       </View>
     </View>
   );

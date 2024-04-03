@@ -83,14 +83,25 @@ const getDefaultStyles = (theme: string, darkMode: boolean) => {
       color: primaryColor,
       fontSize: 16,
     },
+    oppositeBtn: {
+      backgroundColor: primaryColor,
+      height: 50,
+      borderRadius: 8,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    oppositeBtnText: {
+      color: secondaryColor,
+      fontSize: 16,
+    },
     btnIcon: {
       position: "absolute",
       left: 16,
     },
     btnOutline: {
       backgroundColor: "#fff",
-      borderWidth: 1,
-      borderColor: "gray",
+      // borderWidth: 1,
+      // borderColor: "gray",
       height: 50,
       borderRadius: 8,
       alignItems: "center",

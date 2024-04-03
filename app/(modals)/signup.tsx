@@ -13,7 +13,7 @@ import { useTheme } from "@/providers/ThemeProvider";
 
 export default function SignUpScreen() {
   const router = useRouter();
-  const { styles, secondaryColor, textColor } = useTheme();
+  const { styles, primaryColor, secondaryColor, textColor } = useTheme();
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const [firstName, setFirstName] = useState("");
@@ -140,11 +140,10 @@ export default function SignUpScreen() {
             By signing up, you agree to our Terms of Service and Privacy Policy.
           </Text>
 
-          <Button
-            title="Already have an account?"
-            onPress={() => router.replace("/(modals)/login")}
-            color={secondaryColor}
-          />
+          <TouchableOpacity style={styles.oppositeBtn} onPress={() => router.replace("/(modals)/login")}>
+            <Text style={styles.oppositeBtnText}>Already have an account?</Text>
+          </TouchableOpacity>
+         
         </View>
       )}
       {pendingVerification && (
