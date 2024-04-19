@@ -5,12 +5,12 @@ import { StyleSheet } from 'react-native';
 export const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: TeamColors.default.primaryColor,
+    backgroundColor: TeamColors.default.light.primaryColor,
     // paddingHorizontal: 10,
   },
   userAuthContainer: {
     flex: 1,
-    backgroundColor: TeamColors.default.primaryColor,
+    backgroundColor: TeamColors.default.light.primaryColor,
     padding: 20
   },
   headerContainer: {
@@ -24,10 +24,10 @@ export const defaultStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     letterSpacing: 0.25,
-    color: TeamColors.default.text,
+    color: TeamColors.default.light.text,
   },
   inputField: {
-    color: TeamColors.default.text,
+    color: TeamColors.default.light.text,
     height: 44,
     borderWidth: 1,
     borderColor: '#ABABAB',
@@ -35,7 +35,7 @@ export const defaultStyles = StyleSheet.create({
     padding: 10,
   },
   btn: {
-    backgroundColor: TeamColors.default.secondaryColor,
+    backgroundColor: TeamColors.default.light.secondaryColor,
     height: 50,
     borderRadius: 8,
     justifyContent: 'center',
@@ -77,6 +77,6 @@ export const defaultStyles = StyleSheet.create({
     borderTopWidth: StyleSheet.hairlineWidth,
   },
   text: {
-    color: TeamColors.default.text,
+    color: TeamColors.default.light.text,
   },
 });
