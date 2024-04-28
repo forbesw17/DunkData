@@ -70,7 +70,7 @@ const BoxScore: React.FC<BoxScoreProps> = ({ gameID, children }) => {
     );
   } else {
     return (
-      <View style={styles.container}>
+      <View style={styles.boxscoreContainer}>
         <Text style={styles.boxScoreText}>{homeScore}</Text>
         {children}
         <Text style={styles.boxScoreText}>{awayScore}</Text>

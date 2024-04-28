@@ -6,6 +6,7 @@ import * as SecureStore from "expo-secure-store";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import SafeArea from "@/components/SafeArea";
+import { StatusBar } from "expo-status-bar";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
@@ -38,6 +39,7 @@ export default function RootLayout() {
       tokenCache={tokenCache}
     >
       <ThemeProvider>
+        <StatusBar style="auto" />
         <SafeArea>
           <RootLayoutNav />
         </SafeArea>

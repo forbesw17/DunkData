@@ -185,16 +185,18 @@ const getDefaultStyles = (theme: string, darkMode: boolean) => {
     currentDate: {
       fontWeight: "bold",
     },
-
     // Schedule.tsx
 
     gameListContainer: {
+      // backgroundColor: secondaryColor,
+      borderRadius: 15,
       borderColor: secondaryColor,
-      borderBottomWidth: 1,
+      borderWidth: 1,
       marginVertical: 5,
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
+      marginTop: 15,
       padding: 10,
     },
     gameContainer: {
