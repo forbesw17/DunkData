@@ -9,24 +9,23 @@ Team Members
 
 ## Setting up development environment
 
-Clone the repository
+Before you get started you'll need to download a few things
+
+- Ensure that you have node.js installed
+
+- Download the Expo Go app from app store or google play store
+
+Next clone the repository
 
 ```
 git clone https://gitlab.com/cs-department-ecu/csci-4230-spring-2024/nba-or-sports-analytica-app/dunkdata.git
 ```
 
-Install the dependencies
+Run using gitbash
 ```
-npm install
+./setup.sh
 ```
-
-Download Expo from either iOS App Store or Google Play Store
-
-Run: 
-```
-npx expo
-```
-to start up development server on your local machine
+This will create the envirmonment variables as well as install all of the necessary depenencies. All that left is to scan the QR code generated in the terminal after running setup.sh.
 
 ## Pulling the Latest Version
 
