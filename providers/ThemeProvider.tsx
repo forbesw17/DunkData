@@ -185,8 +185,9 @@ const getDefaultStyles = (theme: string, darkMode: boolean) => {
     currentDate: {
       fontWeight: "bold",
     },
-    // Schedule.tsx
 
+
+    // Schedule.tsx
     gameListContainer: {
       // backgroundColor: secondaryColor,
       borderRadius: 15,
@@ -259,6 +260,46 @@ const getDefaultStyles = (theme: string, darkMode: boolean) => {
       color: textColor,
       fontSize: 30,
       fontWeight: "bold",
+    },
+
+    // GameDetails.tsx
+    gameDetailsContainer: {
+      flex: 1,
+      paddingHorizontal: 15,
+      backgroundColor: primaryColor,
+    },
+    headerGameDetails: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingVertical: 10,
+    },
+    headerOption: {
+      padding: 10,
+      backgroundColor: primaryColor,
+      borderWidth: 1,
+      borderColor: secondaryColor,
+      color: textColor,
+    },
+    selectedOption: {
+      backgroundColor: secondaryColor,
+      color: 'white',
+    },
+    playerRow: {
+      flexDirection: "row",
+      height: 40,
+      justifyContent: "space-between",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      borderBottomWidth: 1,
+      borderBottomColor: "lightgray",
+    },
+    teamRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      borderBottomWidth: 1,
+      borderBottomColor: "lightgray",
     },
 
     // SearchBar.tsx

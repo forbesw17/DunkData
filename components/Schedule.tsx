@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  View,
-  Text,
-  Image,
-} from "react-native";
+import { ActivityIndicator, View, Text, Image, Pressable } from "react-native";
+import { useRouter } from "expo-router";
 
 // API
 import { getUpcomingGames } from "@/server/SportRadarAPI"; // Import the function from your API file
@@ -15,6 +11,7 @@ import Colors from "@/constants/Colors";
 import TeamColors from "@/constants/TeamColors";
 import BoxScore from "./BoxScore";
 import { useTheme } from "@/providers/ThemeProvider";
+import { Link } from "expo-router";
 
 /* Returns the status text for a game
     If the game is in progress, return "Live"
@@ -37,6 +34,7 @@ interface UpcomingGamesProps {
 
 function Schedule({ currentDate }: UpcomingGamesProps) {
   const { styles, secondaryColor, textColor } = useTheme();
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [gamesData, setGamesData] = useState<{ date: String; games: any[] }>({
     date: "",
@@ -87,11 +85,11 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
     // Loop through the games and render each game
     <View style={{ paddingHorizontal: 10 }}>
       {gamesData.games.map((game, index) => {
-        
         // Closed Game Render
         if (game.status === "closed") {
           return (
-            <View key={index} style={styles.gameListContainer}>
+            <Pressable key={index} style={styles.gameListContainer} onPress={() => router.push(`/${game.id}`)}>
+            {/* <View key={index} style={styles.gameListContainer}> */}
               <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text
                   style={[
@@ -149,7 +147,8 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                   {game.awayScore}
                 </Text>
               </View>
-            </View>
+            {/* </View> */}
+            </Pressable>
           );
         }
 
@@ -192,7 +191,8 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
         // In Progress Game Render
         if (game.status === "inprogress") {
           return (
-            <View key={index} style={styles.gameListContainer}>
+            // <View key={index} style={styles.gameListContainer}>
+            <Pressable style={styles.gameListContainer} onPress={() => router.push(`/${game.id}`)}>
               <BoxScore gameID={game.id}>
                 <View style={styles.teamsAndTimeContainer}>
                   <View style={styles.teamsContainer}>
@@ -223,7 +223,8 @@ function Schedule({ currentDate }: UpcomingGamesProps) {
                   </View>
                 </View>
               </BoxScore>
-            </View>
+            </Pressable>
+            
           );
         }
       })}

@@ -6,12 +6,12 @@ import { useTheme } from "@/providers/ThemeProvider";
 
 export default function HomeLayout() {
   const [selectedTab, setSelectedTab] = useState("Schedule");
-  const { styles } = useTheme();
+  const { styles, primaryColor } = useTheme();
   
   return (
     <View style={styles.container}>
       <HomeTopTabs selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: primaryColor }}>
         <HomeLayoutNav />
       </View>
     </View>
@@ -39,7 +39,7 @@ function HomeLayoutNav() {
         name="[id]"
         options={{
           headerShown: false,
-          gestureEnabled: false,
+          gestureEnabled: true,
         }}
       />
     </Stack>
