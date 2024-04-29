@@ -36,7 +36,7 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="predictions"
+        name="(predictions)"
         options={{
           tabBarLabel: 'Predictions',
           tabBarLabelStyle: { fontSize: 9 },

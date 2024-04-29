@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, ActivityIndicator, SafeAreaView, View, Text, RefreshControl, ScrollView } from "react-native";
 
 // Styles
 import { defaultStyles } from "@/constants/Styles";
@@ -9,6 +9,11 @@ import { getUpcomingGames } from "@/server/SportRadarAPI";
 import { Ionicons } from "@expo/vector-icons";
 import { predictGame } from "@/server/PredictionModel";
 import * as teamAbbreviationData from "@/server/team_abbreviation.json"
+import { DynamicContent } from "@/components/Outcome";
+import DateScrollBar from "@/components/DateScrollBar";
+import userpredictions from "./userprediction";
+import Predictions from "@/components/Predictions";
+import { useTheme } from "@/providers/ThemeProvider";
 
 type TeamAbbreviation = {
   [key: string]: string;
@@ -20,12 +25,36 @@ const Page = () => {
   const [upcomingGames, setUpcomingGames] = useState<{ date: any; games: any[] } | undefined>();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [predictions, setPredictions] = useState<number[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [dates, setDates] = useState<Date[]>([]);
+  const [selectedDate, setSelectedDate] = useState(7);
+  const { styles, primaryColor, secondaryColor, textColor } = useTheme();
+
 
   useEffect(() => {
-    const fetchGamesAndPredictions = async () => {
+    for (let i = -7; i <= 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      dates.push(date);
+    }
+    setLoading(false);
+    /*const fetchGamesAndPredictions = async () => {
       let currentYear = currentDate.getFullYear();
       let currentMonth = currentDate.getMonth() + 1;
       let currentDay = currentDate.getDate();
+
+      for (let i = -7; i <= 7; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        dates.push(date);
+      }
+      setLoading(false);
+
+      const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTimeout(() => setRefreshing(false), 2000);
+      }, []);
   
       const data = await getUpcomingGames(currentYear, currentMonth, currentDay);
   
@@ -62,53 +91,44 @@ const Page = () => {
         }));
   
         setPredictions(predictions);
-      }
-    };
+      }*/
+    }, []);
+
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => setRefreshing(false), 2000);
+    }, []);
   
-    fetchGamesAndPredictions();
-  }, [upcomingGames === undefined, currentDate]);
+    if (loading) {
+      return (
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      );
+    }
+  
   return (
-    <SafeAreaView style={defaultStyles.container}>
-      <View style={defaultStyles.headerContainer}>
-        <Text style={defaultStyles.header}>Predictions</Text>
-      </View>
-    
-
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => setCurrentDate(prevDate => new Date(prevDate.setDate(prevDate.getDate() - 1)))}>
-          <Ionicons name="arrow-back" size={20} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>{currentDate.toDateString()}</Text>
-        <TouchableOpacity onPress={() => setCurrentDate(prevDate => new Date(prevDate.setDate(prevDate.getDate() + 1)))}>
-          <Ionicons name="arrow-forward" size={20} color="white" />
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView contentContainerStyle={{ paddingHorizontal: 20 }}>
-      {predictions.map((prediction, index) => {
-        const game = upcomingGames?.games[index];
-        if (prediction === 1) {
-          return (
-            <View key={index} style={styles.gamesContainer}>
-              <View style={styles.teams}>
-                <Text style={{ color: "green", fontSize: 16 }}>{game.home}</Text>
-                <Text style={{ color: "white", fontSize: 16 }}>{game.away}</Text>
-              </View>
-            </View>
-          );
-        } else if (prediction === 0) {
-          return (
-            <View key={index} style={styles.gamesContainer}>
-              <View style={styles.teams}>
-                <Text style={{ color: "white", fontSize: 16 }}>{game.home}</Text>
-                <Text style={{ color: "green", fontSize: 16 }}>{game.away}</Text>
-              </View>
-            </View>
-          );
+    <View style={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={[secondaryColor]}
+            tintColor={textColor}
+          />
         }
-      })}
+      >
+      <DateScrollBar
+        dates={dates}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
+        <Text style={styles2.header}>Dunk Data's Picks for the Day</Text>
+        <Predictions currentDate={dates[selectedDate]} />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 // ...styles and export statement...
@@ -137,9 +157,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 1,
     marginVertical: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 10,
+    //flexDirection: "row",
+    justifyContent: "flex-start",
+    padding: 20,
+    alignContent: 'center',
   },
   teams: {
     marginHorizontal: 10,
@@ -150,3 +171,13 @@ const styles = StyleSheet.create({
 
 
 export default Page;
+
+const styles2 = StyleSheet.create({
+  header: {
+    fontSize: 24,       
+    fontWeight: 'bold', 
+    padding: 10,        
+    color: 'white',      
+    textAlign: 'center' 
+  }
+});

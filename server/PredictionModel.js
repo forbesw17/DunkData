@@ -9,8 +9,8 @@ export async function predictGame(home, away) {
         console.log(winner);
         return winner;
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error in prediction model:', error);
     }
 }
 
-predictGame('BOS','WAS');
+//predictGame('BOS','WAS');
