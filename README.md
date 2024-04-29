@@ -1,31 +1,25 @@
-
-# Dunk Data
-Team Members
-- Juwan Everett
-- William Forbes
-- Nate Fox
-- Cole Hearld
-- Sergio Rabinovich
-
 ## Setting up development environment
 
-Before you get started you'll need to download a few things
+First you'll need to ensure that you have Node.js installed
 
-- Ensure that you have node.js installed
-
-- Download the Expo Go app from app store or google play store
-
-Next clone the repository
+Clone the repository
 
 ```
 git clone https://gitlab.com/cs-department-ecu/csci-4230-spring-2024/nba-or-sports-analytica-app/dunkdata.git
 ```
 
-Run using gitbash
+Install the dependencies
 ```
-./setup.sh
+npm install
 ```
-This will create the envirmonment variables as well as install all of the necessary depenencies. All that left is to scan the QR code generated in the terminal after running setup.sh.
+
+Download Expo from either the app Store or Google Play Store
+
+Run: 
+```
+npx expo
+```
+This will start up development server on your local machine. All thats left is to scan the QR code generated in your terminal
 
 ## Pulling the Latest Version
 
@@ -41,9 +35,9 @@ cd dunkdata
 
 3. Pull the latest changes from the remote repository using the following command:
 ```
-git pull origin main
+git pull origin master
 ```
-This command fetches the latest changes from the `main` branch of the remote repository (`origin`) and merges them into your local repository.
+This command pulls the latest changes from the `master` branch of the remote repository (`origin`) and merges them into your local repository.
 
 ## Committing Working Changes
 
@@ -73,11 +67,3 @@ Replace `"Your descriptive commit message here"` with a brief summary of the cha
 git push origin main
 ```
 This command sends your committed changes to the `main` branch of the remote repository (`origin`).
-
-By following these steps, you can keep your local repository synchronized with the latest changes from the remote repository and contribute effectively to the project.
-
-You can copy and paste this markdown code directly into your README.md file.
-
-
-
-
