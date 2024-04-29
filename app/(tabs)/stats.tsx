@@ -24,7 +24,7 @@ const Page = () => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Stats</Text>
-        <SearchBar onSearch={(text) => console.log(text)} />
+        {/* <SearchBar onSearch={(text) => console.log(text)} /> */}
       </View>
       <ScrollView
         refreshControl={
