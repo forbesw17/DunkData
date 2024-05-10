@@ -1,3 +1,16 @@
+# Dunk Data
+
+A React Native application designed to provide NBA enthusiasts with comprehensive statistical analysis and insights. It features user authentication through Clerk's services for secure access to personalized analytics dashboards. The app seamlessly integrates with the SportsRadar API for real-time data retrieval, enabling dynamic updates and live insights during games. Additionally, it includes a Linear Regression model with a 68% accuracy rate to predict game outcomes, offering valuable decision-making support for users.
+
+## Screenshots
+
+<section style="display: flex; flex-direction: row;">
+  <img src="images/standard_home.JPG" style="width: 200px;">
+  <img src="images/miamiheat.JPG" style="width: 200px;">
+  <img src="images/celtics.JPG" style="width: 200px;">
+  <img src="images/profile.JPG" style="width: 200px;">
+</section>
+
 ## Setting up development environment
 
 First you'll need to ensure that you have Node.js installed
